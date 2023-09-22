@@ -25,5 +25,5 @@ public class Ship {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-		
+	
 }
