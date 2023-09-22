@@ -13,23 +13,11 @@ public class Trip {
         return ship;
     }
 
-    public void setShip(Ship ship) {
-        this.ship = ship;
-    }
-
     public String getRessource() {
         return ressource;
     }
 
-    public void setRessource(String ressource) {
-        this.ressource = ressource;
-    }
-
     public int getAmount() {
         return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 }
