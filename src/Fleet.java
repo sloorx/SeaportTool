@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -5,13 +6,20 @@ import java.util.Set;
 public class Fleet {
 
 	private Map<Ship, Integer> ships;
+	private static Fleet instance = null;
 	
-	
-	public Fleet() {
-		
+	public static Fleet getInstance(){
+		if(instance == null){
+			instance = new Fleet();
+		}
+		return instance;
 	}
 	
-	public boolean addShip(String shipname, int capacity) {	
+	private Fleet() {
+		ships = new HashMap<Ship, Integer>();
+	}
+	
+	public boolean addShip(String shipname, int capacity) {
 		return true;
 	}
 	
