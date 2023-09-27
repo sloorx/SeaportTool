@@ -1,0 +1,13 @@
+public enum EventTypes {
+    SHIP_ADDED,
+    SHIP_EDITED,
+    SHIP_REMOVED,
+    RESSOURCE_ADDED,
+    RESSOURCE_EDITED,
+    RESSOURCE_REMOVED,
+    SOLUTION_ADDED,
+    SOLVE,
+    SAVE,
+    LOAD,
+    EXIT
+}
