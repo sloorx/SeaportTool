@@ -4,8 +4,7 @@ import java.util.Set;
 public class Quest {
     private Map<String, Integer> ressources;
 
-    public Quest(Map<String, Integer> ressources) {
-        this.ressources = ressources;
+    public Quest(){
     }
 
     public boolean addRessource(String ressourse, Integer amount){
@@ -25,6 +24,6 @@ public class Quest {
     }
 
     public Set<String> getRessources(){
-        return Set.of(ressources.toString());
+        return null;
     }
 }
