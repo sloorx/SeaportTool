@@ -27,6 +27,14 @@ public class Fleet {
 		return true;
 	}
 	
+	public boolean editShip(String shipname, int newCapacity){
+		return true;
+	}
+
+	public boolean editShip(String shipname, String newName, int newCapacity){
+		return true;
+	}
+
 	public boolean removeShip(String shipname) {
 		return true;
 	}
