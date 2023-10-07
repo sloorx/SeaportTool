@@ -6,12 +6,29 @@ public class Solution {
     private int freeCapacity;
 
     public Solution() {
-        turns = new ArrayList<>();
+        turns = new ArrayList<Turn>();
         freeCapacity = 0;
     }
 
     public int addTrip(Trip trip) {
-        return 0;
+        int shipcount = 0;
+        List<Trip> trips;
+        freeCapacity += trip.getShip().getCapacity() - trip.getAmount();
+        for(int i = 0; i < turns.size(); i++){
+            trips = turns.get(i).getTrips();
+            for(int j = 0; j < trips.size(); j++){
+                if(trips.get(j).getShip().equals(trip.getShip())){
+                    shipcount++;
+                }
+            }
+            if(shipcount < trip.getShip().getAmount()){
+                turns.get(i).addTrips(trip);
+                return i;
+            }
+        }
+        turns.add(new Turn());
+        turns.get(turns.size() - 1).addTrips(trip);
+        return turns.size() - 1;
     }
 
     public List<Turn> getTurns() {
@@ -19,7 +36,7 @@ public class Solution {
     }
 
     public int getTurnCount(){
-        return 0;
+        return turns.size();
     }
 
     public int getFreeCapacity() {
