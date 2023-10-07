@@ -1,11 +1,11 @@
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 
 public class Fleet {
 
-	private Map<Ship, Integer> ships;
+	private Map<String, Ship> ships;
 	private static Fleet instance = null;
 	
 	public static Fleet getInstance(){
@@ -16,39 +16,70 @@ public class Fleet {
 	}
 	
 	private Fleet() {
-		ships = new HashMap<Ship, Integer>();
+		ships = new HashMap<String, Ship>();
 	}
 	
 	public boolean addShip(String shipname, int capacity) {
-		return true;
+		return addShip(shipname, capacity, 1);
 	}
 	
-	public boolean addShip(String shipname, int capacity, int shipcount) {		
-		return true;
+	public boolean addShip(String shipname, int capacity, int shipcount) {
+		if(ships.containsKey(shipname)){
+			Ship s = ships.get(shipname);
+			if(s.equals(new Ship(shipname, capacity, 0))){
+				s.setAmount(s.getAmount() + shipcount);
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			ships.put(shipname, new Ship(shipname, capacity, shipcount));
+			return true;
+		}
 	}
 	
 	public boolean editShip(String shipname, int newCapacity){
-		return true;
+		if(ships.containsKey(shipname)){
+			ships.get(shipname).setCapacity(newCapacity);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean editShip(String shipname, String newName, int newCapacity){
-		return true;
+		if(ships.containsKey(shipname)){
+			Ship s = ships.get(shipname);
+			s.setName(newName);
+			s.setCapacity(newCapacity);
+			ships.remove(shipname);
+			ships.put(newName, s);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean removeShip(String shipname) {
-		return true;
+		if(ships.containsKey(shipname)){
+			ships.remove(shipname);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean removeShip(String shipname, int shipcount) {
-		return true;
+		if(ships.containsKey(shipname)){
+			Ship s = ships.get(shipname);
+			s.setAmount(s.getAmount() - shipcount);
+			if(s.getAmount() <= 0){
+				ships.remove(shipname);
+			}
+			return true;
+		}
+		return false;
 	}
 	
-	public Set<Ship> getShips() {
-		return ships.keySet();
-	}
-	
-	public int getShipAmount(Ship ship) {
-		return ships.get(ship);
+	public Collection<Ship> getShips() {
+		return ships.values();
 	}
 	
 	public boolean load(String path) {
