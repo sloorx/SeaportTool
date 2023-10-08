@@ -5,7 +5,7 @@ public class ToolController {
     private LinkedBlockingDeque<GUIEvent> eventQueue;
 
     public ToolController(){
-
+        eventQueue = new LinkedBlockingDeque<GUIEvent>();
     }
 
     public void run(){
@@ -13,6 +13,6 @@ public class ToolController {
     }
 
     public void update(GUIEvent e){
-        
+        eventQueue.add(e);
     }
 }
