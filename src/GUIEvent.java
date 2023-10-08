@@ -6,7 +6,8 @@ public class GUIEvent {
     private List<Object> parameters;
 
     public GUIEvent(EventTypes et, List<Object> params){
-
+        this.eventtype = et;
+        this.parameters = params;
     }
 
     public EventTypes getType(){
