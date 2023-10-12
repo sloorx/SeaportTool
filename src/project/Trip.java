@@ -1,3 +1,5 @@
+package project;
+
 public class Trip {
     private Ship ship;
     private String ressource;

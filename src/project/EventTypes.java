@@ -1,3 +1,5 @@
+package project;
+
 public enum EventTypes {
     SHIP_ADDED,
     SHIP_EDITED,

@@ -1,3 +1,5 @@
+package project;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -5,7 +7,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -82,7 +83,7 @@ public class FleetPanel extends JPanel {
 		c1.setHeaderValue("Schiff");
 		cm.addColumn(c1);
 		TableColumn c2 = new TableColumn();
-		c2.setHeaderValue("Kapazität");
+		c2.setHeaderValue("Kapazitï¿½t");
 		cm.addColumn(c2);
 		TableColumn c3 = new TableColumn();
 		c3.setHeaderValue("Anzahl");
@@ -106,16 +107,16 @@ public class FleetPanel extends JPanel {
 		shipInfos.add(sp.tfCapacity.getText());
 		shipInfos.add(sp.tfAmount.getText());
 
-		//GUIEvent ge;
+		//seaport.GUIEvent ge;
 		if (addShip) {
 			//DefaultTableModel dtm = (DefaultTableModel) tblShips.getModel();
 			//dtm.setRowCount(5);
 			//dtm.addRow(new Object[]{shipInfos.get(0).toString(), shipInfos.get(1).toString(), shipInfos.get(2).toString()});	
 			//dtm.addRow(new Object[]{sp.tfName.getText(), sp.tfCapacity.getText(), sp.tfAmount.getText()});		
 			
-			//ge = new GUIEvent(EventTypes.SHIP_ADDED, shipInfos);
+			//ge = new seaport.GUIEvent(seaport.EventTypes.SHIP_ADDED, shipInfos);
 		} else {
-			//ge = new GUIEvent(EventTypes.SHIP_EDITED, shipInfos);
+			//ge = new seaport.GUIEvent(seaport.EventTypes.SHIP_EDITED, shipInfos);
 		}
 
 		//parent.updateController(ge);

@@ -1,3 +1,5 @@
+package project;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -112,7 +114,7 @@ public class ShipPanel extends JPanel {
 
 	public void addShip() {
 		setVisible(true);
-		lblShip.setText("Schiff hinzufügen");
+		lblShip.setText("Schiff hinzufï¿½gen");
 		clearView();
 		btnDelete.setEnabled(false);
 		btnSave.setEnabled(false);

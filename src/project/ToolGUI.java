@@ -1,15 +1,17 @@
+package project;
+
+import project.GUI.QuestForm;
+import project.GUI.QuestPanel;
+
 import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
-import java.awt.Component;
 
 public class ToolGUI extends JFrame implements Runnable {
 
@@ -17,6 +19,8 @@ public class ToolGUI extends JFrame implements Runnable {
 	private JPanel pnContentPane;
 	private LinkedBlockingDeque<GUIEvent> eventQueue;
 	private FleetPanel fp;
+	private QuestPanel questPanelGUI;
+	private QuestForm questFormGUI;
 
 	/**
 	 * Create the frame.
@@ -38,23 +42,41 @@ public class ToolGUI extends JFrame implements Runnable {
 		fp.setBounds(0, 0, 477, 400);
 		pnMain.add(fp, BorderLayout.SOUTH);
 		pnMain.setLayout(new BorderLayout());
-		
+
+		questPanelGUI = new QuestPanel(this);
+		questPanelGUI.setBounds(0, 0, 477, 400);
+		pnMain.add(questPanelGUI, BorderLayout.SOUTH);
+		pnMain.setLayout(new BorderLayout());
+
+		questFormGUI = new QuestForm(this);
+		questFormGUI.setBounds(0, 0, 477, 400);
+		pnMain.add(questFormGUI, BorderLayout.SOUTH);
+		pnMain.setLayout(new BorderLayout());
 		
 		JButton btnShips = new JButton("Flotte");
 		btnShips.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fp.setVisible(true);				
+				if(questPanelGUI.isVisible())
+					questPanelGUI.setVisible(false);
+				fp.setVisible(true);
 			}
 		});
 		btnShips.setBounds(20, 11, 89, 23);
 		pnContentPane.add(btnShips);
 		
 		JButton btnQuest = new JButton("Quest");
+		btnQuest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(fp.isVisible())
+					fp.setVisible(false);
+				if(questFormGUI.isVisible())
+					questFormGUI.setVisible(false);
+				questPanelGUI.setVisible(true);
+			}
+		});
 		btnQuest.setBounds(137, 11, 89, 23);
 		pnContentPane.add(btnQuest);
-		
-		
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
         setLocationRelativeTo(null);
@@ -67,11 +89,18 @@ public class ToolGUI extends JFrame implements Runnable {
 	}
 	
 	public void updateController(GUIEvent event) {
-		//Toolcontroller für Update aufrufen
+		//Toolcontroller fï¿½r Update aufrufen
 	}
 	
 	public void update(GUIEvent event) {
 		
+	}
+
+	public void openQuestForm() {
+		System.out.println("add");
+		questPanelGUI.setVisible(false);
+		questFormGUI.setVisible(true);
+		System.out.println("end");
 	}
 	
 	public static void main(String[] args) {
