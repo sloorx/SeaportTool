@@ -97,10 +97,13 @@ public class ToolGUI extends JFrame implements Runnable {
 	}
 
 	public void openQuestForm() {
-		System.out.println("add");
 		questPanelGUI.setVisible(false);
 		questFormGUI.setVisible(true);
-		System.out.println("end");
+	}
+
+	public void closeQuestForm() {
+		questFormGUI.setVisible(false);
+		questPanelGUI.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
