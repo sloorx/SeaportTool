@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface QuestSolver {
 
-    public List<Solution> solve();
+    public List<Solution> solve(Quest q);
 }
