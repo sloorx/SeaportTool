@@ -9,6 +9,7 @@ public enum EventTypes {
     RESOURCE_REMOVED,
     SOLUTION_ADDED,
     SOLVE,
+    ERROR,
     SAVE,
     LOAD,
     EXIT

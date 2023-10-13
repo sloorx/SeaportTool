@@ -1,7 +1,10 @@
 package project;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
+
+import project.GUI.ToolGUI;
 
 public class ToolController {
 
@@ -9,6 +12,7 @@ public class ToolController {
     private Fleet fleet;
     private Quest quest;
     private Thread thread;
+    private ToolGUI gui;
 
     public ToolController(){
         eventQueue = new LinkedBlockingDeque<GUIEvent>();
@@ -16,32 +20,79 @@ public class ToolController {
         quest = new Quest();
     }
 
+    public void setGUI(ToolGUI gui){
+        this.gui = gui;
+    }
+
     public void run(){
         GUIEvent event;
         List<Object> params;
         thread = Thread.currentThread();
+        boolean retval;
         while(true){
             if(!eventQueue.isEmpty()){
                 event = eventQueue.poll();
                 params = event.getParameters();
                 switch (event.getType()) {
                     case SHIP_ADDED:
-                        fleet.addShip((String) params.get(0), ((Integer) params.get(1)).intValue(), ((Integer) params.get(2)).intValue());
+                        retval = fleet.addShip((String) params.get(0), ((Integer) params.get(1)).intValue(), ((Integer) params.get(2)).intValue());
+                        if(retval){
+                            gui.update(event);
+                        }else{
+                            params = new ArrayList<>();
+                            params.add("Schiffname bereits in Verwendung");
+                            gui.update(new GUIEvent(EventTypes.ERROR, params));
+                        }
                         break;
                     case SHIP_EDITED:
-                        fleet.editShip((String) params.get(0), (String) params.get(1), ((Integer) params.get(2)).intValue());
+                        retval = fleet.editShip((String) params.get(0), (String) params.get(1), ((Integer) params.get(2)).intValue());
+                        if(retval){
+                            gui.update(event);
+                        }else{
+                            params = new ArrayList<>();
+                            params.add(""); //TODO
+                            gui.update(new GUIEvent(EventTypes.ERROR, params));
+                        }
                         break;
                     case SHIP_REMOVED:
-                        fleet.removeShip((String) params.get(0), ((Integer) params.get(1)).intValue());
+                        retval = fleet.removeShip((String) params.get(0), ((Integer) params.get(1)).intValue());
+                        if(retval){
+                            gui.update(event);
+                        }else{
+                            params = new ArrayList<>();
+                            params.add(""); //TODO
+                            gui.update(new GUIEvent(EventTypes.ERROR, params));
+                        }
                         break;
                     case RESOURCE_ADDED:
-                        quest.addResource((String) params.get(0), (Integer) params.get(1));
+                        retval = quest.addResource((String) params.get(0), (Integer) params.get(1));
+                        if(retval){
+                            gui.update(event);
+                        }else{
+                            params = new ArrayList<>();
+                            params.add(""); //TODO
+                            gui.update(new GUIEvent(EventTypes.ERROR, params));
+                        }
                         break;
                     case RESOURCE_EDITED:
-                        quest.editResource((String) params.get(0), (Integer) params.get(1));
+                        retval = quest.editResource((String) params.get(0), (Integer) params.get(1));
+                        if(retval){
+                            gui.update(event);
+                        }else{
+                            params = new ArrayList<>();
+                            params.add(""); //TODO
+                            gui.update(new GUIEvent(EventTypes.ERROR, params));
+                        }
                         break;
                     case RESOURCE_REMOVED:
-                        quest.removeResource((String) params.get(0));
+                        retval = quest.removeResource((String) params.get(0));
+                        if(retval){
+                            gui.update(event);
+                        }else{
+                            params = new ArrayList<>();
+                            params.add(""); //TODO
+                            gui.update(new GUIEvent(EventTypes.ERROR, params));
+                        }
                         break;
                     case SOLVE:
                         switch ((SolverTypes)params.get(0)) {
