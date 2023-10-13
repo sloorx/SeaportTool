@@ -10,6 +10,10 @@ public class Turn {
         trips = new ArrayList<>();
     }
 
+    public Turn(Turn t){
+        trips = new ArrayList<>(t.getTrips());
+    }
+
     public List<Trip> getTrips() {
         return trips;
     }

@@ -12,6 +12,14 @@ public class Solution {
         freeCapacity = 0;
     }
 
+    public Solution(Solution s){
+        turns = new ArrayList<>();
+        for(Turn t : s.getTurns()){
+            turns.add(new Turn(t));
+        }
+        freeCapacity = s.getFreeCapacity();
+    }
+
     public int addTrip(Trip trip) {
         int shipcount = 0;
         List<Trip> trips;
