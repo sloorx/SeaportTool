@@ -1,9 +1,7 @@
-package project;
-
-import project.GUI.QuestForm;
-import project.GUI.QuestPanel;
+package project.GUI;
 
 import java.util.concurrent.LinkedBlockingDeque;
+import project.GUIEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

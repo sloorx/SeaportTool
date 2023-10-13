@@ -1,4 +1,4 @@
-package project;
+package project.GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;

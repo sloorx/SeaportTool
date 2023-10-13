@@ -4,8 +4,6 @@
  */
 package project.GUI;
 
-import project.ToolGUI;
-
 /**
  *
  * @author fcastillo
