@@ -42,22 +42,22 @@ public class FleetPanel extends JPanel {
 		
 		JLabel lblFleet = new JLabel("Flotte bearbeiten");
 		lblFleet.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblFleet.setBounds(10, 11, 154, 22);
+		lblFleet.setBounds(10, 11, 223, 22);
 		pnFleet.add(lblFleet);
 
 		JButton btnEdit = new JButton("Bearbeiten");
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnEdit.setEnabled(false);
-		btnEdit.setBounds(230, 217, 100, 25);
+		btnEdit.setBounds(218, 215, 110, 25);
 		pnFleet.add(btnEdit);
 
-		JButton btnDelete = new JButton("L\u00F6schen");
+		JButton btnDelete = new JButton("Loeschen");
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnDelete.setEnabled(false);
-		btnDelete.setBounds(230, 250, 100, 25);
+		btnDelete.setBounds(218, 250, 110, 25);
 		pnFleet.add(btnDelete);
 
-		JButton btnAdd = new JButton("Hinzuf\u00FCgen");
+		JButton btnAdd = new JButton("Hinzufuegen");
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -66,7 +66,7 @@ public class FleetPanel extends JPanel {
 				addShip = true;
 			}
 		});
-		btnAdd.setBounds(106, 217, 105, 25);
+		btnAdd.setBounds(93, 217, 115, 25);
 		pnFleet.add(btnAdd);
 
 		tblShips = new JTable();
@@ -83,7 +83,7 @@ public class FleetPanel extends JPanel {
 		c1.setHeaderValue("Schiff");
 		cm.addColumn(c1);
 		TableColumn c2 = new TableColumn();
-		c2.setHeaderValue("Kapazit�t");
+		c2.setHeaderValue("Kapazitaet");
 		cm.addColumn(c2);
 		TableColumn c3 = new TableColumn();
 		c3.setHeaderValue("Anzahl");

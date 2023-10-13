@@ -30,18 +30,18 @@ public class ShipPanel extends JPanel {
 		setVisible(false);
 
 		tfName = new JTextField();
-		tfName.setBounds(133, 53, 145, 19);
+		tfName.setBounds(144, 56, 145, 19);
 		add(tfName);
 		tfName.setColumns(10);
 				
 		tfCapacity = new JTextField();
 		tfCapacity.setColumns(10);
-		tfCapacity.setBounds(133, 106, 145, 19);
+		tfCapacity.setBounds(144, 109, 145, 19);
 		add(tfCapacity);
 
 		tfAmount = new JTextField();
 		tfAmount.setColumns(10);
-		tfAmount.setBounds(133, 155, 145, 19);
+		tfAmount.setBounds(144, 158, 145, 19);
 		add(tfAmount);
 		
 		DocumentListener dl = new DocumentListener() {
@@ -65,9 +65,9 @@ public class ShipPanel extends JPanel {
 		lblName.setBounds(45, 56, 78, 13);
 		add(lblName);
 
-		JLabel lblCapacity = new JLabel("Kapazit\u00E4t:");
+		JLabel lblCapacity = new JLabel("Kapazitaet:");
 		lblCapacity.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCapacity.setBounds(45, 104, 78, 18);
+		lblCapacity.setBounds(45, 104, 89, 18);
 		add(lblCapacity);
 
 		JLabel lblAmount = new JLabel("Anzahl:");
@@ -83,12 +83,12 @@ public class ShipPanel extends JPanel {
 
 		btnSave = new JButton("Speichern");
 		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSave.setBounds(172, 199, 106, 21);
+		btnSave.setBounds(183, 199, 106, 21);
 		add(btnSave);
 
-		btnDelete = new JButton("L\u00F6schen");
+		btnDelete = new JButton("Loeschen");
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnDelete.setBounds(56, 199, 106, 21);
+		btnDelete.setBounds(67, 199, 106, 21);
 		add(btnDelete);
 
 		btnCancel = new JButton("Abbrechen");
@@ -98,7 +98,7 @@ public class ShipPanel extends JPanel {
 			}
 		});
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(172, 230, 106, 21);
+		btnCancel.setBounds(183, 230, 106, 21);
 		add(btnCancel);
 	}
 
@@ -114,7 +114,7 @@ public class ShipPanel extends JPanel {
 
 	public void addShip() {
 		setVisible(true);
-		lblShip.setText("Schiff hinzuf�gen");
+		lblShip.setText("Schiff hinzufuegen");
 		clearView();
 		btnDelete.setEnabled(false);
 		btnSave.setEnabled(false);

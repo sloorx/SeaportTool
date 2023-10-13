@@ -2,14 +2,18 @@ package project.GUI;
 
 import java.util.concurrent.LinkedBlockingDeque;
 import project.GUIEvent;
+import project.ToolController;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
 
 public class ToolGUI extends JFrame implements Runnable {
 
@@ -19,11 +23,19 @@ public class ToolGUI extends JFrame implements Runnable {
 	private FleetPanel fp;
 	private QuestPanel questPanelGUI;
 	private QuestForm questFormGUI;
+	private ToolController controller;
 
 	/**
 	 * Create the frame.
 	 */
-	public ToolGUI() {        
+	public ToolGUI() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				//TODO Exit übergeben
+				//update(null);
+			}
+		});        
 		setBounds(100, 100, 493, 401);
 		pnContentPane = new JPanel();
 		pnContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,6 +87,7 @@ public class ToolGUI extends JFrame implements Runnable {
 		btnQuest.setBounds(137, 11, 89, 23);
 		pnContentPane.add(btnQuest);
 
+		//TODO eigenes Exit-Event, in dem EXIT dem Controller übergeben wird
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(true);
         setLocationRelativeTo(null);
@@ -86,12 +99,18 @@ public class ToolGUI extends JFrame implements Runnable {
 				
 	}
 	
+	public void setController(ToolController controller) {
+		this.controller = controller;
+	}
+	
 	public void updateController(GUIEvent event) {
-		//Toolcontroller fï¿½r Update aufrufen
+		//TODO
+		//Toolcontroller fuer Update aufrufen
 	}
 	
 	public void update(GUIEvent event) {
-		
+		//TODO Event an Controller übergeben
+		//controller.update(event);
 	}
 
 	public void openQuestForm() {
@@ -102,6 +121,10 @@ public class ToolGUI extends JFrame implements Runnable {
 	public void closeQuestForm() {
 		questFormGUI.setVisible(false);
 		questPanelGUI.setVisible(true);
+	}
+	
+	public void showException(String msg) {
+		JOptionPane.showMessageDialog(this, msg, "Fehler", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public static void main(String[] args) {
