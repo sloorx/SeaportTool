@@ -29,6 +29,8 @@ public class ToolController {
         List<Object> params;
         thread = Thread.currentThread();
         boolean retval;
+        List<Solution> solutions = null;
+        QuestSolver solver = null;
         while(true){
             if(!eventQueue.isEmpty()){
                 event = eventQueue.poll();
@@ -109,13 +111,18 @@ public class ToolController {
                                 //TODO
                                 break;
                             case CAPACITY_SL:
-                                //TODO
+                                solver = new CapacitySolverSL();
                                 break;
                             case TIME_SL:
                                 //TODO
                                 break;
                             default:
                                 break;
+                        }
+                        if(solver != null){
+                            solutions = solver.solve(quest);
+                            params = new ArrayList<>(solutions);
+                            gui.update(new GUIEvent(EventTypes.SOLUTION_ADDED, params));
                         }
                         break;
                     case SAVE:
