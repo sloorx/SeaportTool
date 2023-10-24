@@ -8,9 +8,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import project.EventTypes;
+import project.Fleet;
+import project.GUIEvent;
+import project.Ship;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -99,26 +106,38 @@ public class FleetPanel extends JPanel {
 		setVisible(false);		
 	}
 
+	public void addShipToGUI() {
+		Fleet f = Fleet.getInstance();
+		Collection<Ship> ships = f.getShips();
+		
+		Iterator<Ship> itr = ships.iterator();
+		Ship lastShip = itr.next();
+		
+		while(itr.hasNext()) {
+			lastShip = itr.next();
+	    }
+		
+		//TODO Zeile zu Tabelle hinzufuegen
+//		DefaultTableModel dtm = (DefaultTableModel) tblShips.getModel();
+//		dtm.setRowCount(5);	
+//		dtm.addRow(new Object[]{lastShip.getName(), lastShip.getCapacity(), lastShip.getAmount()});
+	}
+	
 	private void saveShip() {
 		tpFleetPanel.setSelectedIndex(0);
 		
 		ArrayList<Object> shipInfos = new ArrayList<Object>();
 		shipInfos.add(sp.tfName.getText());
-		shipInfos.add(sp.tfCapacity.getText());
-		shipInfos.add(sp.tfAmount.getText());
+		shipInfos.add(Integer.valueOf(sp.tfCapacity.getText()));
+		shipInfos.add(Integer.valueOf(sp.tfAmount.getText()));
 
-		//seaport.GUIEvent ge;
-		if (addShip) {
-			//DefaultTableModel dtm = (DefaultTableModel) tblShips.getModel();
-			//dtm.setRowCount(5);
-			//dtm.addRow(new Object[]{shipInfos.get(0).toString(), shipInfos.get(1).toString(), shipInfos.get(2).toString()});	
-			//dtm.addRow(new Object[]{sp.tfName.getText(), sp.tfCapacity.getText(), sp.tfAmount.getText()});		
-			
-			//ge = new seaport.GUIEvent(seaport.EventTypes.SHIP_ADDED, shipInfos);
-		} else {
-			//ge = new seaport.GUIEvent(seaport.EventTypes.SHIP_EDITED, shipInfos);
-		}
+		GUIEvent ge;
+		if (addShip) 			
+			ge = new GUIEvent(EventTypes.SHIP_ADDED, shipInfos);
+		else 
+			ge = new GUIEvent(EventTypes.SHIP_EDITED, shipInfos);
+		
 
-		//parent.updateController(ge);
+		parent.updateController(ge);
 	}
 }

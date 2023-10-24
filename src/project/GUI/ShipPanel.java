@@ -7,16 +7,20 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.NumberFormatter;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 
 public class ShipPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public JTextField tfName;
-	public JTextField tfCapacity;
-	public JTextField tfAmount;
+	public JFormattedTextField tfCapacity;
+	public JFormattedTextField tfAmount;
 	private JLabel lblShip;
 	public JButton btnSave;
 	public JButton btnDelete;
@@ -29,17 +33,25 @@ public class ShipPanel extends JPanel {
 		setLayout(null);
 		setVisible(false);
 
+		NumberFormat format = NumberFormat.getInstance();
+	    NumberFormatter formatter = new NumberFormatter(format);
+	    formatter.setValueClass(Integer.class);
+	    formatter.setMinimum(0);
+	    formatter.setMaximum(Integer.MAX_VALUE);
+	    formatter.setAllowsInvalid(false);
+	    formatter.setCommitsOnValidEdit(true);
+		
 		tfName = new JTextField();
 		tfName.setBounds(144, 56, 145, 19);
 		add(tfName);
 		tfName.setColumns(10);
 				
-		tfCapacity = new JTextField();
+		tfCapacity = new JFormattedTextField(formatter);
 		tfCapacity.setColumns(10);
 		tfCapacity.setBounds(144, 109, 145, 19);
 		add(tfCapacity);
 
-		tfAmount = new JTextField();
+		tfAmount = new JFormattedTextField();
 		tfAmount.setColumns(10);
 		tfAmount.setBounds(144, 158, 145, 19);
 		add(tfAmount);
