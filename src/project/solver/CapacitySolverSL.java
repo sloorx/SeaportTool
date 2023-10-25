@@ -1,8 +1,15 @@
-package project;
+package project.solver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import project.Fleet;
+import project.Quest;
+import project.QuestSolver;
+import project.Ship;
+import project.Solution;
+import project.Trip;
 
 public class CapacitySolverSL implements QuestSolver {
 

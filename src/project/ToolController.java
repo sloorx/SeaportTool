@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import project.GUI.ToolGUI;
+import project.solver.*;
 
 public class ToolController {
 
