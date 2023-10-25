@@ -48,11 +48,12 @@ public class Fleet {
 		return false;
 	}
 
-	public boolean editShip(String shipname, String newName, int newCapacity){
+	public boolean editShip(String shipname, String newName, int newCapacity, int newAmount){
 		if(ships.containsKey(shipname)){
 			Ship s = ships.get(shipname);
 			s.setName(newName);
 			s.setCapacity(newCapacity);
+			s.setAmount(newAmount);
 			ships.remove(shipname);
 			ships.put(newName, s);
 			return true;
