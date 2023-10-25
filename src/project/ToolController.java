@@ -1,6 +1,10 @@
 package project;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -13,11 +17,13 @@ public class ToolController {
 	private Fleet fleet;
 	private Quest quest;
 	private ToolGUI gui;
+	private List<GUIEvent> loadEvents;
 
 	public ToolController() {
 		eventQueue = new LinkedBlockingDeque<GUIEvent>();
 		fleet = Fleet.getInstance();
 		quest = new Quest();
+		loadEvents = new ArrayList<>();
 	}
 
 	public void setGUI(ToolGUI gui) {
@@ -30,6 +36,7 @@ public class ToolController {
 		boolean retval;
 		List<Solution> solutions = null;
 		QuestSolver solver = null;
+		
 		while (true) {
 			if (!eventQueue.isEmpty()) {
 				event = eventQueue.poll();
@@ -133,11 +140,29 @@ public class ToolController {
 					break;
 
 				case SAVE:
-					// TODO
+					retval = this.save((String) params.get(0));
+					if(retval){
+						gui.updateGUI(event);
+					}else{
+						params = new ArrayList<>();
+						params.add("Fehler beim Speichern");
+						gui.updateGUI(new GUIEvent(EventTypes.ERROR, params));
+					}
 					break;
 
 				case LOAD:
-					// TODO
+					loadEvents.clear();
+					retval = this.load((String) params.get(0));
+					if(retval){
+						for(GUIEvent g: loadEvents){
+							gui.updateGUI(g);
+						}
+						gui.updateGUI(event);
+					}else{
+						params = new ArrayList<>();
+						params.add("Fehler beim Laden");
+						gui.updateGUI(new GUIEvent(EventTypes.ERROR, params));
+					}
 					break;
 
 				case EXIT:
@@ -163,5 +188,71 @@ public class ToolController {
 			eventQueue.add(e);
 			notify();
 		}
+	}
+
+	private boolean save(String path){
+		List<String> lines = new ArrayList<>();
+		Collection<Ship> ships = fleet.getShips();
+		for(Ship s: ships){
+			lines.add("ship");
+			lines.add(s.getName());
+			lines.add(String.valueOf(s.getCapacity()));
+			lines.add(String.valueOf(s.getAmount()));
+		}
+		for(String s: quest.getResources()){
+			lines.add("resource");
+			lines.add(s);
+			lines.add(String.valueOf(quest.getValue(s)));
+		}
+		try {
+			Files.write(Paths.get(path), lines);
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean load(String path){
+		List<String> lines = null;
+		int idx = 0;
+		boolean retval = true;
+		List<Object> params;
+		try {
+			lines = Files.readAllLines(Paths.get(path));
+		} catch (IOException e) {
+			return false;
+		}
+		if(lines != null){
+			fleet.clear();
+			quest.clear();
+			try {
+				while(idx < lines.size()){
+					if(lines.get(idx).equals("ship")){
+						retval = fleet.addShip(lines.get(idx+1), Integer.parseInt(lines.get(idx+2)), Integer.parseInt(lines.get(idx+3)));
+						params = new ArrayList<>();
+						params.add(lines.get(idx+1));
+						params.add(Integer.valueOf(lines.get(idx+2)));
+						params.add(Integer.valueOf(lines.get(idx+3)));
+						loadEvents.add(new GUIEvent(EventTypes.SHIP_ADDED, params));
+						idx += 4;
+						if(!retval){
+							fleet.clear();
+							return false;
+						}
+					}else if(lines.get(idx).equals("quest")){
+						quest.addResource(lines.get(idx+1), Integer.parseInt(lines.get(idx+2)));
+						idx += 3;
+					}else{
+						idx++;
+					}
+				}
+			} catch (Exception e) {
+				fleet.clear();
+				quest.clear();
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 }

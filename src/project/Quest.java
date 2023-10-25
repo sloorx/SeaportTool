@@ -41,4 +41,8 @@ public class Quest {
     public Set<String> getResources(){
         return resources.keySet();
     }
+
+    public void clear(){
+        resources.clear();
+    }
 }
