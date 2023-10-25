@@ -11,7 +11,6 @@ public class ToolController {
 	private LinkedBlockingDeque<GUIEvent> eventQueue;
 	private Fleet fleet;
 	private Quest quest;
-	private Thread thread;
 	private ToolGUI gui;
 
 	public ToolController() {
@@ -27,7 +26,6 @@ public class ToolController {
 	public void run() {
 		GUIEvent event;
 		List<Object> params;
-		thread = Thread.currentThread();
 		boolean retval;
 		List<Solution> solutions = null;
 		QuestSolver solver = null;
@@ -145,19 +143,16 @@ public class ToolController {
 					break;
 				}
 			} else {
-				update(null); //TODO man kann null nicht an LinkedBlockingDeque übergeben, sonst wird eine Exception geworfen (siehe ToolGUI), 
-								//stattdessen neuer Eventtype Empty?
+				this.update(null); //wait for updates
 			}
 		}
 	}
 
 	public synchronized void update(GUIEvent e) {
-		if (Thread.currentThread().equals(this.thread)) {
+		if (e == null) {
 			try {
 				wait();
-			} catch (InterruptedException e1) {
-			}
-			;
+			} catch (InterruptedException e1) {}
 		} else {
 			eventQueue.add(e);
 			notify();
