@@ -10,6 +10,7 @@ public class Ship {
 	public Ship(String name, int capacity, int amount) {
 		setName(name);
 		setCapacity(capacity);
+		setAmount(amount);
 	}
 	
 	public String getName() {

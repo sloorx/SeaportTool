@@ -37,7 +37,7 @@ public class ToolController {
 				
 				switch (event.getType()) {
 				case SHIP_ADDED:
-					retval = fleet.addShip((String) params.get(0), ((Integer) params.get(1)).intValue(), ((Integer) params.get(2)));
+					retval = fleet.addShip((String) params.get(0), ((Integer) params.get(1)).intValue(), ((Integer) params.get(2)).intValue());
 					if (retval) {
 						gui.updateGUI(event);
 					} else {
@@ -48,7 +48,7 @@ public class ToolController {
 					break;
 
 				case SHIP_EDITED:
-					retval = fleet.editShip((String) params.get(0), (String) params.get(1), ((Integer) params.get(2)).intValue());
+					retval = fleet.editShip((String) params.get(0), (String) params.get(1), ((Integer) params.get(2)).intValue(), ((Integer) params.get(3)).intValue());
 					if (retval) {
 						gui.updateGUI(event);
 					} else {
