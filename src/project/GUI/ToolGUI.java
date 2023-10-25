@@ -20,7 +20,7 @@ import java.awt.event.WindowAdapter;
 
 public class ToolGUI extends JFrame implements Runnable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 9152709864005137965L;
 	private JPanel pnContentPane;
 	private LinkedBlockingDeque<GUIEvent> eventQueue;
 	private FleetPanel fp;
@@ -114,10 +114,10 @@ public class ToolGUI extends JFrame implements Runnable {
 					showException((String) params.get(0));
 					break;
 				case SHIP_ADDED:
-					fp.addShipToGUI();
+					fp.addShipToGUI(event);
 					break;
 				case SHIP_EDITED:
-
+					fp.updateShipFromGUI(event);
 					break;
 				case SHIP_REMOVED:
 
@@ -137,10 +137,7 @@ public class ToolGUI extends JFrame implements Runnable {
 				default:
 					break;
 				}
-			} 
-//			else {
-//				updateGUI(null);
-//			}
+			}
 		}
 			
 	}
@@ -150,16 +147,7 @@ public class ToolGUI extends JFrame implements Runnable {
 	}
 
 	public synchronized void updateGUI(GUIEvent event) {		
-		if (Thread.currentThread().equals(new Thread(this))) {
-			try {
-				wait();
-			} catch (InterruptedException e1) {
-			}
-			;
-		} else {
-			eventQueue.add(event);
-			notify();
-		}
+		eventQueue.add(event);
 	}
 
 	public void updateController(GUIEvent event) {

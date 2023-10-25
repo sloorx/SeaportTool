@@ -4,6 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -18,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -30,6 +36,7 @@ public class FleetPanel extends JPanel {
 	private boolean addShip = false;
 	private ToolGUI parent;
 	private JTabbedPane tpFleetPanel;
+	private JButton btnEdit;
 
 	/**
 	 * Create the panel.
@@ -52,10 +59,18 @@ public class FleetPanel extends JPanel {
 		lblFleet.setBounds(10, 11, 223, 22);
 		pnFleet.add(lblFleet);
 
-		JButton btnEdit = new JButton("Bearbeiten");
+		btnEdit = new JButton("Bearbeiten");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tpFleetPanel.setSelectedIndex(1);
+				int row = tblShips.getSelectedRow();
+				sp.editShip(new String[] { tblShips.getValueAt(row, 0).toString(), tblShips.getValueAt(row, 1).toString(), tblShips.getValueAt(row, 2).toString() });
+				addShip = false;
+			}
+		});
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnEdit.setEnabled(false);
-		btnEdit.setBounds(218, 215, 110, 25);
+		btnEdit.setBounds(218, 217, 110, 25);
 		pnFleet.add(btnEdit);
 
 		JButton btnDelete = new JButton("Loeschen");
@@ -77,28 +92,34 @@ public class FleetPanel extends JPanel {
 		pnFleet.add(btnAdd);
 
 		tblShips = new JTable();
-		tblShips.setModel(new DefaultTableModel());
+		tblShips.setModel(new DefaultTableModel(0,0));		
 		tblShips.setBounds(1, 1, 450, 0);
 		pnFleet.add(tblShips);
 
 		JScrollPane spTable = new JScrollPane(tblShips);
 		spTable.setBounds(25, 50, 306, 156);
 		pnFleet.add(spTable);
-
-		TableColumnModel cm = tblShips.getColumnModel();
-		TableColumn c1 = new TableColumn();
-		c1.setHeaderValue("Schiff");
-		cm.addColumn(c1);
-		TableColumn c2 = new TableColumn();
-		c2.setHeaderValue("Kapazitaet");
-		cm.addColumn(c2);
-		TableColumn c3 = new TableColumn();
-		c3.setHeaderValue("Anzahl");
-		cm.addColumn(c3);
+		
+		DefaultTableModel dtm = new DefaultTableModel(0, 0);
+		dtm.setColumnIdentifiers(new String[] { "Schiff", "Kapazitaet", "Anzahl"});
+		tblShips.setModel(dtm);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+		tblShips.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
+		tblShips.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		
+		tblShips.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent event) {
+		    	btnEdit.setEnabled(tblShips.getSelectedRow() > - 1);;
+		    }
+		});
 
 		sp = new ShipPanel();
 		sp.setBounds(0, 0, 477, 400);
 		sp.btnSave.addActionListener(e -> saveShip());
+		sp.btnCancel.addActionListener(e -> cancelShip());
 		tpFleetPanel.add(sp);
 
 		setBounds(0, 0, 363, 312);
@@ -106,27 +127,53 @@ public class FleetPanel extends JPanel {
 		setVisible(false);		
 	}
 
-	public void addShipToGUI() {
-		Fleet f = Fleet.getInstance();
-		Collection<Ship> ships = f.getShips();
+	public void addShipToGUI(GUIEvent event) {
+		List<Object> params = event.getParameters();
+				
+		DefaultTableModel dtm = (DefaultTableModel) tblShips.getModel();
+		dtm.addRow(new Object[]{(String) params.get(0), ((Integer) params.get(1)).intValue(), ((Integer) params.get(2)).intValue()});
+	}
+	
+	private void clearTableSelection() {
+		tblShips.clearSelection();
 		
-		Iterator<Ship> itr = ships.iterator();
-		Ship lastShip = itr.next();
+		TableColumnModel tcm = tblShips.getColumnModel();
+		tcm.getSelectionModel().clearSelection();
+	}
+	
+	public void updateShipFromGUI(GUIEvent event) {
+		List<Object> params = event.getParameters();
+		String shipname = (String) params.get(0);
 		
-		while(itr.hasNext()) {
-			lastShip = itr.next();
-	    }
+		for (int i = 0; i < tblShips.getRowCount(); i++) {
+			if (tblShips.getValueAt(i, 0).equals(shipname)) {
+				
+				tblShips.setValueAt((String) params.get(1), i, 0);
+				tblShips.setValueAt(((Integer) params.get(2)).intValue(), i, 1);
+				tblShips.setValueAt(((Integer) params.get(3)).intValue(), i, 2);	
+				 
+				clearTableSelection();				
+				btnEdit.setEnabled(false);				
+				break;
+			}
+		}
 		
-		//TODO Zeile zu Tabelle hinzufuegen
-//		DefaultTableModel dtm = (DefaultTableModel) tblShips.getModel();
-//		dtm.setRowCount(5);	
-//		dtm.addRow(new Object[]{lastShip.getName(), lastShip.getCapacity(), lastShip.getAmount()});
+	}
+	
+	private void cancelShip() {
+		tpFleetPanel.setSelectedIndex(0);
+		sp.clearView();
+		clearTableSelection();	
 	}
 	
 	private void saveShip() {
 		tpFleetPanel.setSelectedIndex(0);
 		
 		ArrayList<Object> shipInfos = new ArrayList<Object>();
+		
+		if (!addShip) 
+			shipInfos.add(sp.oldShipname);		
+		
 		shipInfos.add(sp.tfName.getText());
 		shipInfos.add(Integer.valueOf(sp.tfCapacity.getText()));
 		shipInfos.add(Integer.valueOf(sp.tfAmount.getText()));
@@ -135,8 +182,7 @@ public class FleetPanel extends JPanel {
 		if (addShip) 			
 			ge = new GUIEvent(EventTypes.SHIP_ADDED, shipInfos);
 		else 
-			ge = new GUIEvent(EventTypes.SHIP_EDITED, shipInfos);
-		
+			ge = new GUIEvent(EventTypes.SHIP_EDITED, shipInfos);		
 
 		parent.updateController(ge);
 	}

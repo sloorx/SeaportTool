@@ -24,21 +24,22 @@ public class ShipPanel extends JPanel {
 	private JLabel lblShip;
 	public JButton btnSave;
 	public JButton btnDelete;
-	private JButton btnCancel;
+	public JButton btnCancel;
+	public String oldShipname;
 
 	/**
 	 * Create the panel.
 	 */
 	public ShipPanel() {
 		setLayout(null);
-		setVisible(false);
 
 		NumberFormat format = NumberFormat.getInstance();
+		format.setGroupingUsed(false);
 	    NumberFormatter formatter = new NumberFormatter(format);
 	    formatter.setValueClass(Integer.class);
 	    formatter.setMinimum(0);
 	    formatter.setMaximum(Integer.MAX_VALUE);
-	    formatter.setAllowsInvalid(false);
+	    formatter.setAllowsInvalid(true);
 	    formatter.setCommitsOnValidEdit(true);
 		
 		tfName = new JTextField();
@@ -51,7 +52,7 @@ public class ShipPanel extends JPanel {
 		tfCapacity.setBounds(144, 109, 145, 19);
 		add(tfCapacity);
 
-		tfAmount = new JFormattedTextField();
+		tfAmount = new JFormattedTextField(formatter);
 		tfAmount.setColumns(10);
 		tfAmount.setBounds(144, 158, 145, 19);
 		add(tfAmount);
@@ -104,11 +105,6 @@ public class ShipPanel extends JPanel {
 		add(btnDelete);
 
 		btnCancel = new JButton("Abbrechen");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnCancel.setBounds(183, 230, 106, 21);
 		add(btnCancel);
@@ -118,17 +114,24 @@ public class ShipPanel extends JPanel {
 		btnSave.setEnabled(!tfName.getText().equals("") && !tfCapacity.getText().equals("") && !tfAmount.getText().equals(""));
 	}
 
-	private void clearView() {
+	public void clearView() {
 		tfName.setText("");
-		tfCapacity.setText("");
-		tfAmount.setText("");
+		tfCapacity.setValue(null);
+		tfAmount.setValue(null);
 	}
 
 	public void addShip() {
-		setVisible(true);
 		lblShip.setText("Schiff hinzufuegen");
 		clearView();
 		btnDelete.setEnabled(false);
 		btnSave.setEnabled(false);
+	}
+	
+	public void editShip(String[] values) {
+		lblShip.setText("Schiff bearbeiten");
+		oldShipname = values[0];
+		tfName.setText(values[0]);
+		tfCapacity.setValue(Integer.parseInt(values[1]));
+		tfAmount.setValue(Integer.parseInt(values[2]));
 	}
 }
