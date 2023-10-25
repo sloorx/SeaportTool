@@ -85,11 +85,7 @@ public class Fleet {
 		return ships.values();
 	}
 	
-	public boolean load(String path) {
-		return true;
-	}
-	
-	public boolean save(String path) {
-		return true;
+	public void clear(){
+		ships.clear();
 	}
 }
