@@ -120,7 +120,7 @@ public class ToolGUI extends JFrame implements Runnable {
 					fp.updateShipFromGUI(event);
 					break;
 				case SHIP_REMOVED:
-
+					fp.removeShipFromGUI(event);
 					break;
 				case RESOURCE_ADDED:
 

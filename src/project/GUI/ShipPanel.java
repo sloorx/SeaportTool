@@ -14,6 +14,8 @@ import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ShipPanel extends JPanel {
 
@@ -133,5 +135,6 @@ public class ShipPanel extends JPanel {
 		tfName.setText(values[0]);
 		tfCapacity.setValue(Integer.parseInt(values[1]));
 		tfAmount.setValue(Integer.parseInt(values[2]));
+		btnDelete.setEnabled(true);
 	}
 }

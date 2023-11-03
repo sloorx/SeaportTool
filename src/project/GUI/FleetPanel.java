@@ -20,6 +20,8 @@ import project.Ship;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -27,6 +29,8 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class FleetPanel extends JPanel {
 
@@ -46,6 +50,20 @@ public class FleetPanel extends JPanel {
 		this.parent = parent;
 
 		tpFleetPanel = new JTabbedPane(JTabbedPane.TOP);
+		tpFleetPanel.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int selIndex = tpFleetPanel.getSelectedIndex();				
+				
+				if (selIndex == 1) {
+					if (addShip) {
+						sp.addShip();
+					} else {
+						int row = tblShips.getSelectedRow();
+						sp.editShip(new String[] { tblShips.getValueAt(row, 0).toString(), tblShips.getValueAt(row, 1).toString(), tblShips.getValueAt(row, 2).toString() });						
+					}
+				}
+			}
+		});
 		tpFleetPanel.setBounds(0, 0, 363, 312);
 		add(tpFleetPanel);
 				
@@ -61,11 +79,8 @@ public class FleetPanel extends JPanel {
 
 		btnEdit = new JButton("Bearbeiten");
 		btnEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tpFleetPanel.setSelectedIndex(1);
-				int row = tblShips.getSelectedRow();
-				sp.editShip(new String[] { tblShips.getValueAt(row, 0).toString(), tblShips.getValueAt(row, 1).toString(), tblShips.getValueAt(row, 2).toString() });
-				addShip = false;
+			public void actionPerformed(ActionEvent e) {				
+				tpFleetPanel.setSelectedIndex(1);	
 			}
 		});
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -74,6 +89,11 @@ public class FleetPanel extends JPanel {
 		pnFleet.add(btnEdit);
 
 		JButton btnDelete = new JButton("Loeschen");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deleteShip();
+			}
+		});
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnDelete.setEnabled(false);
 		btnDelete.setBounds(218, 250, 110, 25);
@@ -83,20 +103,35 @@ public class FleetPanel extends JPanel {
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tpFleetPanel.setSelectedIndex(1);
-				sp.addShip();
 				addShip = true;
+				tpFleetPanel.setSelectedIndex(1);							
 			}
 		});
 		btnAdd.setBounds(93, 217, 115, 25);
 		pnFleet.add(btnAdd);
 
-		tblShips = new JTable();
-		tblShips.setModel(new DefaultTableModel(0,0));		
+		tblShips = new JTable() {
+
+			private static final long serialVersionUID = -2985077790110026476L;
+
+			public boolean isCellEditable(int row, int column) {                
+	                return false;               
+	        };
+	    };
+		tblShips.setModel(new DefaultTableModel(0, 0));		
 		tblShips.setBounds(1, 1, 450, 0);
 		pnFleet.add(tblShips);
 
 		JScrollPane spTable = new JScrollPane(tblShips);
+		spTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tblShips.rowAtPoint(e.getPoint());	      
+				
+				if (row == -1)
+					clearTableSelection();
+			}
+		});
 		spTable.setBounds(25, 50, 306, 156);
 		pnFleet.add(spTable);
 		
@@ -113,17 +148,38 @@ public class FleetPanel extends JPanel {
 		    @Override
 		    public void valueChanged(ListSelectionEvent event) {
 		    	btnEdit.setEnabled(tblShips.getSelectedRow() > - 1);;
+		    	addShip = !btnEdit.isEnabled();
+		    	btnDelete.setEnabled(!addShip);;
 		    }
 		});
 
 		sp = new ShipPanel();
 		sp.setBounds(0, 0, 477, 400);
-		sp.btnSave.addActionListener(e -> saveShip());
-		sp.btnCancel.addActionListener(e -> cancelShip());
+		
+		sp.btnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				saveShip();
+			}
+		});
+		
+		sp.btnCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				cancelShip();
+			}
+		});
+		
+		sp.btnDelete.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				deleteShip();
+			}
+		});
+		
 		tpFleetPanel.add(sp);
 
-		setBounds(0, 0, 363, 312);
-				
+		setBounds(0, 0, 363, 312);				
 		setVisible(false);		
 	}
 
@@ -135,29 +191,33 @@ public class FleetPanel extends JPanel {
 	}
 	
 	private void clearTableSelection() {
-		tblShips.clearSelection();
+		tblShips.clearSelection();		
+
+		ListSelectionModel selectionModel = tblShips.getSelectionModel();
+		selectionModel.setAnchorSelectionIndex(-1);
+		selectionModel.setLeadSelectionIndex(-1);
 		
-		TableColumnModel tcm = tblShips.getColumnModel();
-		tcm.getSelectionModel().clearSelection();
+		TableColumnModel columnModel = tblShips.getColumnModel();
+		columnModel.getSelectionModel().setAnchorSelectionIndex(-1);
+		columnModel.getSelectionModel().setLeadSelectionIndex(-1);
 	}
 	
 	public void updateShipFromGUI(GUIEvent event) {
 		List<Object> params = event.getParameters();
-		String shipname = (String) params.get(0);
 		
-		for (int i = 0; i < tblShips.getRowCount(); i++) {
-			if (tblShips.getValueAt(i, 0).equals(shipname)) {
-				
-				tblShips.setValueAt((String) params.get(1), i, 0);
-				tblShips.setValueAt(((Integer) params.get(2)).intValue(), i, 1);
-				tblShips.setValueAt(((Integer) params.get(3)).intValue(), i, 2);	
-				 
-				clearTableSelection();				
-				btnEdit.setEnabled(false);				
-				break;
-			}
-		}
-		
+		int i = tblShips.getSelectedRow();				
+		tblShips.setValueAt((String) params.get(1), i, 0);
+		tblShips.setValueAt(((Integer) params.get(2)).intValue(), i, 1);
+		tblShips.setValueAt(((Integer) params.get(3)).intValue(), i, 2);	
+		 
+		clearTableSelection();				
+		btnEdit.setEnabled(false);
+		addShip = true;
+	}
+	
+	public void removeShipFromGUI(GUIEvent event) {
+		int i = tblShips.getSelectedRow();
+		((DefaultTableModel)tblShips.getModel()).removeRow(i);
 	}
 	
 	private void cancelShip() {
@@ -185,5 +245,19 @@ public class FleetPanel extends JPanel {
 			ge = new GUIEvent(EventTypes.SHIP_EDITED, shipInfos);		
 
 		parent.updateController(ge);
+	}
+	
+	private void deleteShip() {
+		int selIndex = tpFleetPanel.getSelectedIndex();
+		ArrayList<Object> shipInfo = new ArrayList<Object>();
+		
+		if (selIndex == 0) {
+			shipInfo.add(tblShips.getValueAt(tblShips.getSelectedRow(), 0));
+		} else {
+			shipInfo.add(sp.tfName.getText());
+			tpFleetPanel.setSelectedIndex(0);
+		}
+				
+		parent.updateController(new GUIEvent(EventTypes.SHIP_REMOVED, shipInfo));
 	}
 }
