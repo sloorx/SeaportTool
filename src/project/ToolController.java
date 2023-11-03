@@ -66,7 +66,7 @@ public class ToolController {
 					break;
 
 				case SHIP_REMOVED:
-					retval = fleet.removeShip((String) params.get(0), ((Integer) params.get(1)).intValue());
+					retval = fleet.removeShip((String) params.get(0));
 					if (retval) {
 						gui.updateGUI(event);
 					} else {
