@@ -1,5 +1,6 @@
 package project.GUI;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -11,12 +12,31 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
-import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.Box;
+import java.awt.Component;
+import javax.swing.BoxLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.BorderLayout;
 
 public class ToolGUI extends JFrame implements Runnable {
 
@@ -32,11 +52,67 @@ public class ToolGUI extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public ToolGUI() {
+		setTitle("Seaport-Tool");
 		eventQueue = new LinkedBlockingDeque<GUIEvent>();
-		
+
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		setBounds(100, 100, 493, 401);
+		setBounds(100, 100, 500, 400);
+
+		JMenuBar mbMain = new JMenuBar();
+		setJMenuBar(mbMain);
+
+		JMenu mLoadSave = new JMenu("Menu");
+		mbMain.add(mLoadSave);
+
+		JMenuItem miLoad = new JMenuItem("Laden");
+		miLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser("Datei zum Laden auswählen");
+				chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);	
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp"); 
+				chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
+		        chooser.setFileFilter(filter); 
+
+		        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		            File f = chooser.getSelectedFile();
+		            ArrayList<Object> loadInfo = new ArrayList<Object>();
+		            loadInfo.add(f.getPath());
+		            controller.update(new GUIEvent(EventTypes.LOAD, loadInfo));
+		        }
+			}
+		});
+		mLoadSave.add(miLoad);
+
+		JMenuItem miSave = new JMenuItem("Speichern");
+		miSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser("Speicherort auswählen");
+				chooser.setDialogType(JFileChooser.SAVE_DIALOG);				
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);	
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp"); 
+				chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
+		        chooser.setFileFilter(filter); 
+
+		        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+		            File f = chooser.getSelectedFile();
+		            String path = f.getPath();
+		            ArrayList<Object> saveInfo = new ArrayList<Object>();
+		            
+		            if (!filter.accept(f)) {
+		            	if (path.contains("."))
+		            		path.substring(0, path.lastIndexOf('.'));
+		            	
+		            	path = path + ".sp";
+		            }
+		            		            
+		            saveInfo.add(path);
+		            controller.update(new GUIEvent(EventTypes.SAVE, saveInfo));
+		        }
+			}
+		});
+		mLoadSave.add(miSave);
 		pnContentPane = new JPanel();
 		pnContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -44,24 +120,12 @@ public class ToolGUI extends JFrame implements Runnable {
 		pnContentPane.setLayout(null);
 
 		JPanel pnMain = new JPanel();
-		pnMain.setBounds(0, 45, 477, 400);
+		pnMain.setBounds(32, 36, 421, 303);
 		pnContentPane.add(pnMain);
-		pnMain.setLayout(null);
 
-		fp = new FleetPanel(this);
-		fp.setBounds(0, 0, 477, 400);
-		pnMain.add(fp, BorderLayout.SOUTH);
-		pnMain.setLayout(new BorderLayout());
-
-		questPanelGUI = new QuestPanel(this);
-		questPanelGUI.setBounds(0, 0, 477, 400);
-		pnMain.add(questPanelGUI, BorderLayout.SOUTH);
-		pnMain.setLayout(new BorderLayout());
-
-		questFormGUI = new QuestForm(this);
-		questFormGUI.setBounds(0, 0, 477, 400);
-		pnMain.add(questFormGUI, BorderLayout.SOUTH);
-		pnMain.setLayout(new BorderLayout());
+		JPanel pnButtons = new JPanel();
+		pnButtons.setBounds(0, 0, 484, 38);
+		pnContentPane.add(pnButtons);
 
 		JButton btnShips = new JButton("Flotte");
 		btnShips.addActionListener(new ActionListener() {
@@ -71,10 +135,43 @@ public class ToolGUI extends JFrame implements Runnable {
 				fp.setVisible(true);
 			}
 		});
-		btnShips.setBounds(20, 11, 89, 23);
-		pnContentPane.add(btnShips);
 
 		JButton btnQuest = new JButton("Quest");
+		GroupLayout gl_pnButtons = new GroupLayout(pnButtons);
+		gl_pnButtons.setHorizontalGroup(gl_pnButtons.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnButtons.createSequentialGroup().addGap(89)
+						.addComponent(btnShips, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE).addGap(46)
+						.addComponent(btnQuest, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+						.addGap(81)));
+		gl_pnButtons.setVerticalGroup(gl_pnButtons.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnButtons.createSequentialGroup().addGap(7)
+						.addGroup(gl_pnButtons.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnShips, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnQuest, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap()));
+		pnButtons.setLayout(gl_pnButtons);
+		pnMain.setLayout(null);
+
+		questFormGUI = new QuestForm(this);
+		questFormGUI.setBounds(0, 0, 421, 303);
+		pnMain.add(questFormGUI);
+
+		questPanelGUI = new QuestPanel(this);
+		questPanelGUI.setBounds(0, 0, 421, 303);
+		pnMain.add(questPanelGUI);
+
+		fp = new FleetPanel(this);
+		fp.setBounds(0, 0, 421, 303);
+		pnMain.add(fp);
+
+		Component verticalStrut = Box.createVerticalStrut(20);
+		verticalStrut.setBounds(0, 37, 30, 303);
+		pnContentPane.add(verticalStrut);
+
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		verticalStrut_1.setBounds(454, 41, 30, 298);
+		pnContentPane.add(verticalStrut_1);
+
 		btnQuest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (fp.isVisible())
@@ -84,8 +181,6 @@ public class ToolGUI extends JFrame implements Runnable {
 				questPanelGUI.setVisible(true);
 			}
 		});
-		btnQuest.setBounds(137, 11, 89, 23);
-		pnContentPane.add(btnQuest);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -101,14 +196,14 @@ public class ToolGUI extends JFrame implements Runnable {
 
 	@Override
 	public void run() {
-		List<Object> params;		
+		List<Object> params;
 		GUIEvent event;
-		
+
 		while (true) {
 			if (!eventQueue.isEmpty()) {
 				event = eventQueue.poll();
 				params = event.getParameters();
-				
+
 				switch (event.getType()) {
 				case ERROR:
 					showException((String) params.get(0));
@@ -139,14 +234,14 @@ public class ToolGUI extends JFrame implements Runnable {
 				}
 			}
 		}
-			
+
 	}
 
 	public void setController(ToolController controller) {
 		this.controller = controller;
 	}
 
-	public synchronized void updateGUI(GUIEvent event) {		
+	public synchronized void updateGUI(GUIEvent event) {
 		eventQueue.add(event);
 	}
 
@@ -167,5 +262,4 @@ public class ToolGUI extends JFrame implements Runnable {
 	public void showException(String msg) {
 		JOptionPane.showMessageDialog(this, msg, "Fehler", JOptionPane.ERROR_MESSAGE);
 	}
-
 }

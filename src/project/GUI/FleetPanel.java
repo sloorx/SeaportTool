@@ -179,7 +179,7 @@ public class FleetPanel extends JPanel {
 		
 		tpFleetPanel.add(sp);
 
-		setBounds(0, 0, 363, 312);				
+		setBounds(50, 0, 363, 312);				
 		setVisible(false);		
 	}
 
