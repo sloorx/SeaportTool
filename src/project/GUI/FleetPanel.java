@@ -59,7 +59,10 @@ public class FleetPanel extends JPanel {
 						sp.addShip();
 					} else {
 						int row = tblShips.getSelectedRow();
-						sp.editShip(new String[] { tblShips.getValueAt(row, 0).toString(), tblShips.getValueAt(row, 1).toString(), tblShips.getValueAt(row, 2).toString() });						
+						if (row >= 0)
+							sp.editShip(new String[] { tblShips.getValueAt(row, 0).toString(), tblShips.getValueAt(row, 1).toString(), tblShips.getValueAt(row, 2).toString() });
+						else
+							sp.addShip();
 					}
 				}
 			}
