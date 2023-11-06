@@ -11,8 +11,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static project.SolverTypes.*;
 
 /**
  *
@@ -170,7 +173,10 @@ public class QuestPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteQuestActionPerformed
 
     private void btnSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolutionActionPerformed
-        // TODO add your handling code here:
+        String type = (String) cmbTypeSolver.getSelectedItem();
+        String user = (String) cmbUserSolver.getSelectedItem();
+        GUIEvent ge = new GUIEvent(EventTypes.SOLVE, solution(type,user));
+        parentFrame.updateController(ge);
     }//GEN-LAST:event_btnSolutionActionPerformed
 
 
@@ -213,16 +219,53 @@ public class QuestPanel extends javax.swing.JPanel {
         if(setEnabl){
             btnDeleteQuest.setEnabled(true);
             btnEditQuest.setEnabled(true);
+        } else {
+            btnDeleteQuest.setEnabled(false);
+            btnEditQuest.setEnabled(false);
+        }
+
+        if(!parentFrame.getQuest().isEmpty()) {
             btnSolution.setEnabled(true);
             cmbTypeSolver.setEnabled(true);
             cmbUserSolver.setEnabled(true);
         } else {
-            btnDeleteQuest.setEnabled(false);
-            btnEditQuest.setEnabled(false);
             btnSolution.setEnabled(false);
             cmbTypeSolver.setEnabled(false);
             cmbUserSolver.setEnabled(false);
         }
+    }
 
+    private List<Object> solution(String type, String user) {
+        List<Object> typeSolution = new ArrayList<>();
+        if(type.matches("Kapazitaetkritisch")) {
+            switch (user) {
+                case "Loose":
+                    typeSolution = Collections.singletonList(CAPACITY_SL);
+                    break;
+                case "Mehlis":
+                    typeSolution = Collections.singletonList(CAPACITY_CM);
+                    break;
+                case "Castillo":
+                    typeSolution = Collections.singletonList(CAPACITY_FH);
+                    break;
+                default:
+                    break;
+            }
+        } else  {
+            switch (user) {
+                case "Loose":
+                    typeSolution = Collections.singletonList(TIME_SL);
+                    break;
+                case "Mehlis":
+                    typeSolution = Collections.singletonList(TIME_CM);
+                    break;
+                case "Castillo":
+                    typeSolution = Collections.singletonList(TIME_FH);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return typeSolution;
     }
 }

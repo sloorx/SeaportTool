@@ -1,13 +1,9 @@
 package project.GUI;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import project.EventTypes;
-import project.GUIEvent;
-import project.ToolController;
+import project.*;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,8 +15,6 @@ import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -29,15 +23,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.Box;
 import java.awt.Component;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.BorderLayout;
 
 public class ToolGUI extends JFrame implements Runnable {
 
@@ -225,7 +212,6 @@ public class ToolGUI extends JFrame implements Runnable {
 				case RESOURCE_REMOVED:
 					break;
 				case SOLUTION_ADDED:
-
 					break;
 				default:
 					break;
