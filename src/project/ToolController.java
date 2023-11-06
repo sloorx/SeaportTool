@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import project.GUI.ToolGUI;
@@ -77,7 +78,7 @@ public class ToolController {
 					break;
 
 				case RESOURCE_ADDED:
-					retval = quest.addResource((String) params.get(0), (Integer) params.get(1));
+					retval = quest.addResource((String) params.get(0), (Integer) (params.get(1)));
 					if (retval) {
 						gui.updateGUI(event);
 					} else {
@@ -239,7 +240,7 @@ public class ToolController {
 							fleet.clear();
 							return false;
 						}
-					}else if(lines.get(idx).equals("quest")){
+					}else if(lines.get(idx).equals("resource")){
 						quest.addResource(lines.get(idx+1), Integer.parseInt(lines.get(idx+2)));
 						idx += 3;
 					}else{
@@ -254,5 +255,9 @@ public class ToolController {
 			return true;
 		}
 		return false;
+	}
+
+	public Map<String, Integer> getQuest () {
+		return quest.getQuest();
 	}
 }

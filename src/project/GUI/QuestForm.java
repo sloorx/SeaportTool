@@ -4,19 +4,29 @@
  */
 package project.GUI;
 
+import project.EventTypes;
+import project.GUIEvent;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- *
  * @author fcastillo
  */
 public class QuestForm extends javax.swing.JPanel {
-    private ToolGUI parent;
-    /**
-     * Creates new form Quest2
-     */
-    public QuestForm(ToolGUI parent) {
+    private ToolGUI parentFrame;
+    private boolean isEdit = false;
+
+    public QuestForm(ToolGUI parentFrame) {
         initComponents();
-        this.parent = parent;
+        this.parentFrame = parentFrame;
+        setVisible(false);
+        btnSave.setEnabled(false);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,159 +39,210 @@ public class QuestForm extends javax.swing.JPanel {
 
         jTextField2 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        labelTitle = new javax.swing.JLabel();
+        labelRes = new javax.swing.JLabel();
+        labelMenge = new javax.swing.JLabel();
+        txtMenge = new javax.swing.JTextField();
+        cmbResource = new javax.swing.JComboBox<>();
         btnClean = new javax.swing.JButton();
-        btnSaveQuest = new javax.swing.JButton();
-        btnBack = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         jTextField2.setText("jTextField2");
 
-        setBackground(new java.awt.Color(242, 242, 242));
+        labelTitle.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        labelTitle.setText("Quest hinzufuegen");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Quest hinzufügen");
+        labelRes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelRes.setText("Resource:");
 
-        jLabel2.setText("Name:");
+        labelMenge.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelMenge.setText("Menge:");
 
-        jLabel3.setText("Resource:");
+        txtMenge.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jLabel4.setText("Menge:");
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+        cmbResource.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbResource.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gem", "Münze", "Fisch", "Holz", "Stein", "Eisen"}));
+        DocumentListener dl = new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                if (!txtMenge.getText().isEmpty()) btnSave.setEnabled(true);
             }
-        });
+
+            public void removeUpdate(DocumentEvent e) {
+                if (!txtMenge.getText().isEmpty()) btnSave.setEnabled(true);
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                if (!txtMenge.getText().isEmpty()) btnSave.setEnabled(true);
+            }
+        };
+
+        txtMenge.getDocument().addDocumentListener(dl);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel1))
-                .addContainerGap(61, Short.MAX_VALUE))
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(labelRes)
+                                                        .addComponent(labelMenge))
+                                                .addGap(24, 24, 24)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(txtMenge, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                                        .addComponent(cmbResource, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(labelTitle))
+                                .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(labelTitle)
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(labelRes)
+                                        .addComponent(cmbResource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtMenge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(labelMenge))
+                                .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        btnClean.setText("Löschen");
+        btnClean.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnClean.setText("Löeschen");
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCleanActionPerformed(evt);
             }
         });
 
-        btnSaveQuest.setText("Speichern");
-        btnSaveQuest.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSave.setText("Speichern");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveQuestActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
 
-        btnBack.setText("Abbrechen");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCancel.setText("Abbrechen");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnClean)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnSaveQuest)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBack)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnCancel)))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBack)
-                    .addComponent(btnSaveQuest)
-                    .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnSave)
+                                        .addComponent(btnCancel)
+                                        .addComponent(btnClean))
+                                .addContainerGap(18, Short.MAX_VALUE))
         );
-        setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void btnSaveQuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        parent.closeQuestForm();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
+        cleanInputs();
+    }//GEN-LAST:event_btnCleanActionPerformed
 
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (NotValidInput()) return;
+        List<Object> saveResource = new ArrayList<>();
+        saveResource.add(cmbResource.getSelectedItem().toString());
+        saveResource.add(Integer.parseInt(txtMenge.getText()));
+        GUIEvent ge;
+        if(isEdit)
+            ge = new GUIEvent(EventTypes.RESOURCE_EDITED, saveResource);
+        else
+            ge = new GUIEvent(EventTypes.RESOURCE_ADDED, saveResource);
+        parentFrame.updateController(ge);
+        btnCleanActionPerformed(evt);
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private boolean NotValidInput() {
+        String regex = "(^[0-9]*$)";
+        if (txtMenge.getText().isEmpty() || !txtMenge.getText().matches(regex)) {
+            showDialog("Invalid input.");
+            return true;
+        }
+
+        int menge = Integer.parseInt(txtMenge.getText());
+        if (menge < 1) {
+            showDialog("Input muss be more than 0");
+            return true;
+        }
+        return false;
+    }
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        parentFrame.closeQuestForm();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClean;
-    private javax.swing.JButton btnSaveQuest;
-    private javax.swing.JButton btnBack;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JComboBox<String> cmbResource;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel labelMenge;
+    private javax.swing.JLabel labelRes;
+    private javax.swing.JLabel labelTitle;
+    private javax.swing.JTextField txtMenge;
     // End of variables declaration//GEN-END:variables
+
+    private void showDialog(String message) {
+        txtMenge.setText("");
+        JOptionPane optionPane = new JOptionPane(message);
+        optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        JDialog dialog = optionPane.createDialog("Message");
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
+
+    public void editQuest(String editElement, String editMenge) {
+        labelTitle.setText("Quest bearbeiten");
+        cmbResource.setSelectedItem(editElement);
+        txtMenge.setText(editMenge);
+        isEdit = true;
+    }
+
+    public void setTitleNewQuest() {
+        labelTitle.setText("Quest Hinzufuegen");
+        isEdit = false;
+        cleanInputs();
+    }
+
+    private void cleanInputs() {
+        txtMenge.setText("");
+        cmbResource.setSelectedIndex(0);
+    }
 }

@@ -2,6 +2,7 @@ package project.GUI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import project.EventTypes;
@@ -68,7 +69,7 @@ public class ToolGUI extends JFrame implements Runnable {
 		JMenuItem miLoad = new JMenuItem("Laden");
 		miLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser("Datei zum Laden auswählen");
+				JFileChooser chooser = new JFileChooser("Datei zum Laden auswï¿½hlen");
 				chooser.setDialogType(JFileChooser.OPEN_DIALOG);
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);	
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp"); 
@@ -88,7 +89,7 @@ public class ToolGUI extends JFrame implements Runnable {
 		JMenuItem miSave = new JMenuItem("Speichern");
 		miSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser("Speicherort auswählen");
+				JFileChooser chooser = new JFileChooser("Speicherort auswï¿½hlen");
 				chooser.setDialogType(JFileChooser.SAVE_DIALOG);				
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);	
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp"); 
@@ -130,8 +131,10 @@ public class ToolGUI extends JFrame implements Runnable {
 		JButton btnShips = new JButton("Flotte");
 		btnShips.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (questPanelGUI.isVisible())
+				if (questPanelGUI.isVisible() || questFormGUI.isVisible()) {
 					questPanelGUI.setVisible(false);
+					questFormGUI.setVisible(false);
+				}
 				fp.setVisible(true);
 			}
 		});
@@ -173,12 +176,8 @@ public class ToolGUI extends JFrame implements Runnable {
 		pnContentPane.add(verticalStrut_1);
 
 		btnQuest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (fp.isVisible())
-					fp.setVisible(false);
-				if (questFormGUI.isVisible())
-					questFormGUI.setVisible(false);
-				questPanelGUI.setVisible(true);
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				showQuestPanel(evt);
 			}
 		});
 		setResizable(false);
@@ -218,13 +217,12 @@ public class ToolGUI extends JFrame implements Runnable {
 					fp.removeShipFromGUI(event);
 					break;
 				case RESOURCE_ADDED:
-
+					closeQuestForm();
 					break;
 				case RESOURCE_EDITED:
-
+					closeQuestForm();
 					break;
 				case RESOURCE_REMOVED:
-
 					break;
 				case SOLUTION_ADDED:
 
@@ -249,17 +247,41 @@ public class ToolGUI extends JFrame implements Runnable {
 		controller.update(event);
 	}
 
-	public void openQuestForm() {
+	public void showQuestPanel(ActionEvent e) {
+		if (fp.isVisible())
+			fp.setVisible(false);
+		if (questFormGUI.isVisible())
+			questFormGUI.setVisible(false);
+		questPanelGUI.updateTable();
+		questPanelGUI.setVisible(true);
+	}
+
+	private void openQuestForm() {
 		questPanelGUI.setVisible(false);
 		questFormGUI.setVisible(true);
 	}
 
 	public void closeQuestForm() {
 		questFormGUI.setVisible(false);
+		questPanelGUI.updateTable();
 		questPanelGUI.setVisible(true);
 	}
 
 	public void showException(String msg) {
 		JOptionPane.showMessageDialog(this, msg, "Fehler", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public Map<String, Integer> getQuest() {
+		return controller.getQuest();
+	}
+
+	public  void addNewQuest() {
+		questFormGUI.setTitleNewQuest();
+		openQuestForm();
+	}
+
+	public void editQuest(String editRes, String editMenge) {
+		questFormGUI.editQuest(editRes, editMenge);
+		openQuestForm();
 	}
 }

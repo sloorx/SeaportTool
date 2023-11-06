@@ -22,6 +22,8 @@ public class Quest {
     public boolean editResource(String resource, Integer amount){
         if(resources.containsKey(resource)){
             resources.put(resource, amount);
+            //Update Database
+            DBController.updateDB(resources);
             return true;
         }
         return false;
@@ -29,6 +31,7 @@ public class Quest {
 
     public boolean removeResource(String resource){
         if(resources.remove(resource) != null){
+            resources.remove(resource);
             return true;
         }
         return false;
@@ -42,7 +45,15 @@ public class Quest {
         return resources.keySet();
     }
 
+    public void setResources(Map<String, Integer> resources){
+        this.resources = resources;
+    }
+
     public void clear(){
         resources.clear();
+    }
+
+    public Map<String, Integer> getQuest(){
+        return resources;
     }
 }

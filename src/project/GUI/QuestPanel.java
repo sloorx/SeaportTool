@@ -4,21 +4,30 @@
  */
 package project.GUI;
 
+import project.EventTypes;
+import project.GUIEvent;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author fcastillo
  */
 public class QuestPanel extends javax.swing.JPanel {
 
-    private ToolGUI parent;
-    private QuestForm questForm;
+    private ToolGUI parentFrame;
     /**
      * Creates new form QuestList
      */
-    public QuestPanel(ToolGUI parent) {
+    public QuestPanel(ToolGUI parentFrame) {
         initComponents();
-        this.parent = parent;
-        questForm = new QuestForm(this.parent);
+        this.parentFrame = parentFrame;
+        setVisible(false);
     }
 
     /**
@@ -35,25 +44,35 @@ public class QuestPanel extends javax.swing.JPanel {
         btnAddQuest = new javax.swing.JButton();
         btnEditQuest = new javax.swing.JButton();
         btnDeleteQuest = new javax.swing.JButton();
+        btnSolution = new javax.swing.JButton();
+        cmbTypeSolver = new javax.swing.JComboBox<>();
+        cmbUserSolver = new javax.swing.JComboBox<>();
 
+        jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Name", "Resource", "Menge"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                enableBtns(true);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
 
-        btnAddQuest.setText("Hinzufügen");
+        btnAddQuest.setText("Hinzufuegen");
         btnAddQuest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addQuestActionPerformed(evt);
@@ -67,71 +86,143 @@ public class QuestPanel extends javax.swing.JPanel {
             }
         });
 
-        btnDeleteQuest.setText("Löschen");
+        btnDeleteQuest.setText("Loeschen");
         btnDeleteQuest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteQuestActionPerformed(evt);
             }
         });
 
-        if(jTable1.getRowCount() == 0){
-            btnEditQuest.setEnabled(false);
-            btnDeleteQuest.setEnabled(false);
-        }
+        btnSolution.setText("Loesung");
+        btnSolution.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolutionActionPerformed(evt);
+            }
+        });
+
+        cmbTypeSolver.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kapazitaetkritisch", "Zeitkritisch" }));
+
+        cmbUserSolver.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Loose", "Mehlis", "Castillo" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(btnAddQuest)
-                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(btnEditQuest, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnDeleteQuest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSolution, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddQuest, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnDeleteQuest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnEditQuest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(11, Short.MAX_VALUE))
+                            .addComponent(cmbTypeSolver, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbUserSolver, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditQuest)
+                    .addComponent(btnAddQuest)
+                    .addComponent(cmbTypeSolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddQuest)
-                    .addComponent(btnEditQuest))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDeleteQuest)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDeleteQuest)
+                    .addComponent(btnSolution)
+                    .addComponent(cmbUserSolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
-        setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addQuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addQuestActionPerformed
-        // TODO add your handling code here:
-        this.parent.openQuestForm();
+        parentFrame.addNewQuest();
     }//GEN-LAST:event_addQuestActionPerformed
 
     private void editQuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestActionPerformed
-        // TODO add your handling code here:
+        String editResource = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),0));
+        String editMenge = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),1));
+        parentFrame.editQuest(editResource, editMenge);
     }//GEN-LAST:event_editQuestActionPerformed
 
     private void deleteQuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteQuestActionPerformed
-        // TODO add your handling code here:
+        List<Object> deleteResource = new ArrayList<>();
+        String deleteElement = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(),0));
+        deleteResource.add(deleteElement);
+        GUIEvent ge = new GUIEvent(EventTypes.RESOURCE_REMOVED, deleteResource);
+        parentFrame.updateController(ge);
+        ((DefaultTableModel)jTable1.getModel()).removeRow(jTable1.getSelectedRow());
+        enableBtns(false);
     }//GEN-LAST:event_deleteQuestActionPerformed
+
+    private void btnSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolutionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSolutionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddQuest;
-    private javax.swing.JButton btnEditQuest;
     private javax.swing.JButton btnDeleteQuest;
+    private javax.swing.JButton btnEditQuest;
+    private javax.swing.JButton btnSolution;
+    private javax.swing.JComboBox<String> cmbTypeSolver;
+    private javax.swing.JComboBox<String> cmbUserSolver;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    public void updateTable() {
+        DefaultTableModel tableModel = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        String titles[] = {"Resource", "Menge"};
+        tableModel.setColumnIdentifiers(titles);
+
+        Map<String, Integer> resources = parentFrame.getQuest();
+        if(!resources.isEmpty()) {
+            resources.forEach((k,v) -> {
+                Object[]  object = {k, v};
+                tableModel.addRow(object);
+            });
+        }
+
+        jTable1.setModel(tableModel);
+        enableBtns(false);
+    }
+
+    private void enableBtns(boolean setEnabl) {
+        if(setEnabl){
+            btnDeleteQuest.setEnabled(true);
+            btnEditQuest.setEnabled(true);
+            btnSolution.setEnabled(true);
+            cmbTypeSolver.setEnabled(true);
+            cmbUserSolver.setEnabled(true);
+        } else {
+            btnDeleteQuest.setEnabled(false);
+            btnEditQuest.setEnabled(false);
+            btnSolution.setEnabled(false);
+            cmbTypeSolver.setEnabled(false);
+            cmbUserSolver.setEnabled(false);
+        }
+
+    }
 }
