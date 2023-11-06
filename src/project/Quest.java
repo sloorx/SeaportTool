@@ -22,8 +22,6 @@ public class Quest {
     public boolean editResource(String resource, Integer amount){
         if(resources.containsKey(resource)){
             resources.put(resource, amount);
-            //Update Database
-            DBController.updateDB(resources);
             return true;
         }
         return false;
