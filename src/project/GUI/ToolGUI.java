@@ -25,6 +25,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.Box;
 import java.awt.Component;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class ToolGUI extends JFrame implements Runnable {
 
@@ -58,17 +59,17 @@ public class ToolGUI extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser("Datei zum Laden ausw�hlen");
 				chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);	
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp"); 
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp");
 				chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
-		        chooser.setFileFilter(filter); 
+				chooser.setFileFilter(filter);
 
-		        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-		            File f = chooser.getSelectedFile();
-		            ArrayList<Object> loadInfo = new ArrayList<Object>();
-		            loadInfo.add(f.getPath());
-		            controller.update(new GUIEvent(EventTypes.LOAD, loadInfo));
-		        }
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File f = chooser.getSelectedFile();
+					ArrayList<Object> loadInfo = new ArrayList<Object>();
+					loadInfo.add(f.getPath());
+					controller.update(new GUIEvent(EventTypes.LOAD, loadInfo));
+				}
 			}
 		});
 		mLoadSave.add(miLoad);
@@ -77,27 +78,27 @@ public class ToolGUI extends JFrame implements Runnable {
 		miSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser("Speicherort ausw�hlen");
-				chooser.setDialogType(JFileChooser.SAVE_DIALOG);				
-				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);	
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp"); 
+				chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Seaport-Datei: sp", "sp");
 				chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
-		        chooser.setFileFilter(filter); 
+				chooser.setFileFilter(filter);
 
-		        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-		            File f = chooser.getSelectedFile();
-		            String path = f.getPath();
-		            ArrayList<Object> saveInfo = new ArrayList<Object>();
-		            
-		            if (!filter.accept(f)) {
-		            	if (path.contains("."))
-		            		path.substring(0, path.lastIndexOf('.'));
-		            	
-		            	path = path + ".sp";
-		            }
-		            		            
-		            saveInfo.add(path);
-		            controller.update(new GUIEvent(EventTypes.SAVE, saveInfo));
-		        }
+				if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File f = chooser.getSelectedFile();
+					String path = f.getPath();
+					ArrayList<Object> saveInfo = new ArrayList<Object>();
+
+					if (!filter.accept(f)) {
+						if (path.contains("."))
+							path.substring(0, path.lastIndexOf('.'));
+
+						path = path + ".sp";
+					}
+
+					saveInfo.add(path);
+					controller.update(new GUIEvent(EventTypes.SAVE, saveInfo));
+				}
 			}
 		});
 		mLoadSave.add(miSave);
@@ -127,16 +128,20 @@ public class ToolGUI extends JFrame implements Runnable {
 		});
 
 		JButton btnQuest = new JButton("Quest");
+
+		JButton btnSolution = new JButton("Loesung");
 		GroupLayout gl_pnButtons = new GroupLayout(pnButtons);
 		gl_pnButtons.setHorizontalGroup(gl_pnButtons.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnButtons.createSequentialGroup().addGap(89)
-						.addComponent(btnShips, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE).addGap(46)
-						.addComponent(btnQuest, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-						.addGap(81)));
+				.addGroup(gl_pnButtons.createSequentialGroup().addGap(30)
+						.addComponent(btnShips, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE).addGap(20)
+						.addComponent(btnQuest, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE).addGap(18)
+						.addComponent(btnSolution, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+						.addGap(30)));
 		gl_pnButtons.setVerticalGroup(gl_pnButtons.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnButtons.createSequentialGroup().addGap(7)
-						.addGroup(gl_pnButtons.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnButtons.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnShips, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnSolution, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnQuest, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 						.addContainerGap()));
 		pnButtons.setLayout(gl_pnButtons);
@@ -261,7 +266,7 @@ public class ToolGUI extends JFrame implements Runnable {
 		return controller.getQuest();
 	}
 
-	public  void addNewQuest() {
+	public void addNewQuest() {
 		questFormGUI.setTitleNewQuest();
 		openQuestForm();
 	}

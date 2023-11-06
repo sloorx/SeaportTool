@@ -63,6 +63,7 @@ public class QuestForm extends javax.swing.JPanel {
 
         cmbResource.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbResource.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gem", "Münze", "Fisch", "Holz", "Stein", "Eisen"}));
+        
         DocumentListener dl = new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
                 if (!txtMenge.getText().isEmpty()) btnSave.setEnabled(true);
