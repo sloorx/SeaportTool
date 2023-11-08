@@ -23,9 +23,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import java.awt.Component;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
 
 public class ToolGUI extends JFrame implements Runnable {
 
@@ -52,6 +57,11 @@ public class ToolGUI extends JFrame implements Runnable {
 		setJMenuBar(mbMain);
 
 		JMenu mLoadSave = new JMenu("Menu");
+		mLoadSave.setForeground(new Color(0, 0, 0));
+		mLoadSave.setFont(new Font("Segoe UI", Font.BOLD, 15));
+		mLoadSave.setBackground(new Color(203, 236, 254));
+		mLoadSave.setBorder(BorderFactory.createLineBorder(new Color(227, 227, 227), 2));
+		mLoadSave.setOpaque(true);
 		mbMain.add(mLoadSave);
 
 		JMenuItem miLoad = new JMenuItem("Laden");
