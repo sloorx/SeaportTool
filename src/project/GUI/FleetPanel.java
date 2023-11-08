@@ -230,24 +230,28 @@ public class FleetPanel extends JPanel {
 	}
 	
 	private void saveShip() {
-		tpFleetPanel.setSelectedIndex(0);
+		sp.checkSave();
 		
-		ArrayList<Object> shipInfos = new ArrayList<Object>();
-		
-		if (!addShip) 
-			shipInfos.add(sp.oldShipname);		
-		
-		shipInfos.add(sp.tfName.getText());
-		shipInfos.add(Integer.valueOf(sp.tfCapacity.getText()));
-		shipInfos.add(Integer.valueOf(sp.tfAmount.getText()));
-
-		GUIEvent ge;
-		if (addShip) 			
-			ge = new GUIEvent(EventTypes.SHIP_ADDED, shipInfos);
-		else 
-			ge = new GUIEvent(EventTypes.SHIP_EDITED, shipInfos);		
-
-		parent.updateController(ge);
+		if (sp.btnSave.isEnabled()) {
+			tpFleetPanel.setSelectedIndex(0);
+			
+			ArrayList<Object> shipInfos = new ArrayList<Object>();
+			
+			if (!addShip) 
+				shipInfos.add(sp.oldShipname);		
+			
+			shipInfos.add(sp.tfName.getText());
+			shipInfos.add(Integer.valueOf(sp.tfCapacity.getText()));
+			shipInfos.add(Integer.valueOf(sp.tfAmount.getText()));
+	
+			GUIEvent ge;
+			if (addShip) 			
+				ge = new GUIEvent(EventTypes.SHIP_ADDED, shipInfos);
+			else 
+				ge = new GUIEvent(EventTypes.SHIP_EDITED, shipInfos);		
+	
+			parent.updateController(ge);
+		}
 	}
 	
 	private void deleteShip() {
