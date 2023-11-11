@@ -40,6 +40,8 @@ public class ToolGUI extends JFrame implements Runnable {
 	private FleetPanel fp;
 	private QuestPanel questPanelGUI;
 	private QuestForm questFormGUI;
+	private SolutionsListGui solutionslistGUI;
+	private SolutionGui solutionGUI;
 	private ToolController controller;
 
 	/**
@@ -129,9 +131,11 @@ public class ToolGUI extends JFrame implements Runnable {
 		JButton btnShips = new JButton("Flotte");
 		btnShips.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (questPanelGUI.isVisible() || questFormGUI.isVisible()) {
+				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || solutionslistGUI.isVisible() || solutionGUI.isVisible()) {
 					questPanelGUI.setVisible(false);
 					questFormGUI.setVisible(false);
+					solutionslistGUI.setVisible(false);
+					solutionGUI.setVisible(false);
 				}
 				fp.setVisible(true);
 			}
@@ -140,6 +144,18 @@ public class ToolGUI extends JFrame implements Runnable {
 		JButton btnQuest = new JButton("Quest");
 
 		JButton btnSolution = new JButton("Loesung");
+		btnSolution.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || fp.isVisible() || solutionGUI.isVisible()) {
+					questPanelGUI.setVisible(false);
+					questFormGUI.setVisible(false);
+					fp.setVisible(false);
+					solutionGUI.setVisible(false);
+				}
+				solutionslistGUI.setVisible(true);
+			}
+		});
+
 		GroupLayout gl_pnButtons = new GroupLayout(pnButtons);
 		gl_pnButtons.setHorizontalGroup(gl_pnButtons.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnButtons.createSequentialGroup().addGap(30)
@@ -168,6 +184,15 @@ public class ToolGUI extends JFrame implements Runnable {
 		fp = new FleetPanel(this);
 		fp.setBounds(0, 0, 421, 303);
 		pnMain.add(fp);
+
+		solutionslistGUI = new SolutionsListGui(this);
+		solutionslistGUI.setBounds(0, 0, 421, 303);
+		pnMain.add(solutionslistGUI);
+		solutionslistGUI.setTitleTable();
+
+		solutionGUI = new SolutionGui(this);
+		solutionGUI.setBounds(0, 0, 421, 303);
+		pnMain.add(solutionGUI);
 
 		Component verticalStrut = Box.createVerticalStrut(20);
 		verticalStrut.setBounds(0, 37, 30, 303);
@@ -227,6 +252,11 @@ public class ToolGUI extends JFrame implements Runnable {
 				case RESOURCE_REMOVED:
 					break;
 				case SOLUTION_ADDED:
+					List<Solution> solutions = new ArrayList<>();
+					for(int i = 0; i < params.size(); i++) {
+						solutions.add((Solution) params.get(i));
+					}
+					setSolutionsToGUI(solutions);
 					break;
 				default:
 					break;
@@ -249,10 +279,12 @@ public class ToolGUI extends JFrame implements Runnable {
 	}
 
 	public void showQuestPanel(ActionEvent e) {
-		if (fp.isVisible())
+		if (fp.isVisible() || questFormGUI.isVisible() || solutionslistGUI.isVisible() || solutionGUI.isVisible()) {
 			fp.setVisible(false);
-		if (questFormGUI.isVisible())
 			questFormGUI.setVisible(false);
+			solutionslistGUI.setVisible(false);
+			solutionGUI.setVisible(false);
+		}
 		questPanelGUI.updateTable();
 		questPanelGUI.setVisible(true);
 	}
@@ -266,6 +298,23 @@ public class ToolGUI extends JFrame implements Runnable {
 		questFormGUI.setVisible(false);
 		questPanelGUI.updateTable();
 		questPanelGUI.setVisible(true);
+	}
+
+	private void setSolutionsToGUI(List<Solution> solutions) {
+		questPanelGUI.setVisible(false);
+		solutionslistGUI.updateTable(solutions);
+		solutionslistGUI.setVisible(true);
+	}
+
+	public void openSolutionGUIAndShowSelectedSolution(int index) {
+		solutionslistGUI.setVisible(false);
+		solutionGUI.setTable(solutionslistGUI.getSolutions().get(index));
+		solutionGUI.setVisible(true);
+	}
+
+	public void openSolutionsListGUI() {
+		solutionGUI.setVisible(false);
+		solutionslistGUI.setVisible(true);
 	}
 
 	public void showException(String msg) {
