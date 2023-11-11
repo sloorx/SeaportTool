@@ -95,7 +95,7 @@ public class CapacitySolverSL implements QuestSolver {
                 if(deltaCap >= best){
                     for(List<Ship> sl : temp){
                         shipList = new ArrayList<>(sl);
-                        sl.add(s);
+                        shipList.add(s);
                         ret.add(shipList);
                     }
                     best = deltaCap;
