@@ -27,7 +27,7 @@ public class Solution {
 		for (int i = 0; i < turns.size(); i++) {
 			trips = turns.get(i).getTrips();
 			shipcount = 0;
-					
+			
 			for (int j = 0; j < trips.size(); j++) {
 				if (trips.get(j).getShip().equals(trip.getShip())) {
 					shipcount++;

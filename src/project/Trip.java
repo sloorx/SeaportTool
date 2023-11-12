@@ -2,12 +2,12 @@ package project;
 
 public class Trip {
     private Ship ship;
-    private String ressource;
+    private String resource;
     private int amount;
 
-    public Trip(Ship ship, String ressource, int amount) {
+    public Trip(Ship ship, String resource, int amount) {
         this.ship = ship;
-        this.ressource = ressource;
+        this.resource = resource;
         this.amount = amount;
     }
 
@@ -15,8 +15,8 @@ public class Trip {
         return ship;
     }
 
-    public String getRessource() {
-        return ressource;
+    public String getResource() {
+        return resource;
     }
 
     public int getAmount() {
