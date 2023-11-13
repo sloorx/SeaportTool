@@ -88,8 +88,6 @@ public class Solution {
 		for (Turn turn : solution.getTurns()) {
 			trips.addAll(turn.getTrips());
 		}
-		
-		sortTrips(trips);
 	}
 	
     public boolean equals(Solution s2) {
@@ -98,22 +96,13 @@ public class Solution {
 		getAllTrips(this, trips1);
 		getAllTrips(s2, trips2);
 
-		if (!trips1.equals(trips2))
-			return false;
-
-		// Überprüfe, ob die Reihenfolge der Ressourcen gleich ist
-		Iterator<Trip> iterator1 = trips1.iterator();
-		Iterator<Trip> iterator2 = trips2.iterator();
-
-		while (iterator1.hasNext() && iterator2.hasNext()) {
-			String resource1 = iterator1.next().getResource();
-			String resource2 = iterator2.next().getResource();
-
-			if (!resource1.equals(resource2))
+		for(Trip t: trips1){
+			if(trips2.contains(t)){
+				trips2.remove(t);
+			}else{
 				return false;
+			}
 		}
-
-		// Wenn eine der Listen länger ist als die andere
-		return !iterator1.hasNext() && !iterator2.hasNext();
+		return trips2.isEmpty();
     }
 }

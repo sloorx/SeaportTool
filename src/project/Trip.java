@@ -22,4 +22,17 @@ public class Trip {
     public int getAmount() {
         return amount;
     }
+
+    public boolean equals(Trip t){
+        if(!this.ship.equals(t.ship)){
+            return false;
+        }
+        if(!this.resource.equals(t.resource)){
+            return false;
+        }
+        if(this.amount != t.amount){
+            return false;
+        }
+        return true;
+    }
 }
