@@ -2,8 +2,6 @@ package project;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 
 public class Solution {
 	private List<Turn> turns;
@@ -79,6 +77,7 @@ public class Solution {
 		return trips;
 	}
 	
+	@Override
     public boolean equals(Object o) {
 		if(this == o){
             return true;
@@ -101,4 +100,21 @@ public class Solution {
 		}
 		return trips2.isEmpty();
     }
+
+	public boolean solves(Quest q){
+		int amount;
+		List<Trip> trips = getAllTrips(this);
+		for(String r: q.getResources()){
+			amount = q.getValue(r);
+			for(Trip t: trips){
+				if(t.getResource().equals(r)){
+					amount -= t.getAmount();
+				}
+			}
+			if(amount != 0){
+				return false;
+			}
+		}
+		return true;
+	}
 }
