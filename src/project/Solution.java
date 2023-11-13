@@ -14,10 +14,14 @@ public class Solution {
 
 	public Solution(Solution s) {
 		turns = new ArrayList<>();
-		for (Turn t : s.getTurns()) {
-			turns.add(new Turn(t));
+		if(s == null){
+			freeCapacity = 0;
+		}else{
+			for (Turn t : s.getTurns()) {
+				turns.add(new Turn(t));
+			}
+			freeCapacity = s.getFreeCapacity();
 		}
-		freeCapacity = s.getFreeCapacity();
 	}
 
 	public int addTrip(Trip trip) {
@@ -116,5 +120,16 @@ public class Solution {
 			}
 		}
 		return true;
+	}
+
+	public int getTransportedAmount(String resource){
+		int amount = 0;
+		List<Trip> trips = getAllTrips(this);
+		for(Trip t: trips){
+			if(t.getResource().equals(resource)){
+					amount += t.getAmount();
+				}
+		}
+		return amount;
 	}
 }
