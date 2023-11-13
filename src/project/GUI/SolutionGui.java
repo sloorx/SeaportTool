@@ -112,7 +112,7 @@ public class SolutionGui extends javax.swing.JPanel {
         for (int i = 0; i < solution.getTurnCount(); i++) {
             List<Trip> tripList = new ArrayList<>(turnList.get(i).getTrips());
             for (Trip trip : tripList) {
-                Object[] object = {(i+1), trip.getShip().getName(), trip.getResource(), trip.getShip().getCapacity(), trip.getAmount()};
+                Object[] object = {(i+1), trip.getShip().getName(), trip.getResource(), trip.getShip().getCapacity(), (trip.getShip().getCapacity() - trip.getAmount())};
                 tableModel.addRow(object);
             }
         }

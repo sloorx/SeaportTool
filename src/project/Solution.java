@@ -43,15 +43,29 @@ public class Solution {
 		return turns.size() - 1;
 	}
 
-	public List<Turn> getTurns() {
-		return turns;
-	}
+    public void addTripFH(Trip trip) {
+        freeCapacity += trip.getShip().getCapacity() - trip.getAmount();
+        turns.get(turns.size() - 1).addTrips(trip);
+    }
 
-	public int getTurnCount() {
-		return turns.size();
-	}
+    public List<Turn> getTurns() {
+        return turns;
+    }
 
-	public int getFreeCapacity() {
-		return freeCapacity;
-	}
+    public void addTurn(Turn turn) {
+        if(!turn.getTrips().isEmpty()){
+            for(Trip trip : turn.getTrips()){
+                freeCapacity += trip.getShip().getCapacity() - trip.getAmount();
+            }
+        }
+        this.turns.add(turn);
+    }
+
+    public int getTurnCount(){
+        return turns.size();
+    }
+
+    public int getFreeCapacity() {
+        return freeCapacity;
+    }
 }

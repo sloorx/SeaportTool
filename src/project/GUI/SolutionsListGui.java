@@ -131,6 +131,9 @@ public class SolutionsListGui extends javax.swing.JPanel {
     }
 
     public void updateTable(List<Solution> solutions) {
+        DefaultTableModel dtm = (DefaultTableModel) tblSolutions.getModel();
+        dtm.setRowCount(0);
+
         if(solutions.isEmpty())
             return;
         this.solutions = solutions;
