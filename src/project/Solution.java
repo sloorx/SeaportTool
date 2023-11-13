@@ -71,31 +71,27 @@ public class Solution {
         return freeCapacity;
     }
     
-    private void sortTrips(List<Trip> trips) {
-		trips.sort((new Comparator<Trip>() {
-
-			@Override
-			public int compare(Trip t1, Trip t2) {
-				Ship s1 = t1.getShip();
-				Ship s2 = t2.getShip();
-
-				return s1.getName().compareTo(s2.getName());
-			}
-		}).thenComparing(Trip::getResource));
-	}
-
-	private void getAllTrips(Solution solution, List<Trip> trips) {
+	private List<Trip> getAllTrips(Solution solution) {
+		List<Trip> trips = new ArrayList<>();
 		for (Turn turn : solution.getTurns()) {
 			trips.addAll(turn.getTrips());
 		}
+		return trips;
 	}
 	
-    public boolean equals(Solution s2) {
-		List<Trip> trips1 = new ArrayList<>();
-		List<Trip> trips2 = new ArrayList<>();
-		getAllTrips(this, trips1);
-		getAllTrips(s2, trips2);
-
+    public boolean equals(Object o) {
+		if(this == o){
+            return true;
+        }
+        if(o == null){
+            return false;
+        }
+        if(o.getClass() != this.getClass()){
+            return false;
+        }
+		Solution s = (Solution) o;
+		List<Trip> trips1 = getAllTrips(this);
+		List<Trip> trips2 = getAllTrips(s);
 		for(Trip t: trips1){
 			if(trips2.contains(t)){
 				trips2.remove(t);
