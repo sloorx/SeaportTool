@@ -23,7 +23,17 @@ public class Trip {
         return amount;
     }
 
-    public boolean equals(Trip t){
+    public boolean equals(Object o){
+        if(this == o){
+            return true;
+        }
+        if(o == null){
+            return false;
+        }
+        if(o.getClass() != this.getClass()){
+            return false;
+        }
+        Trip t = (Trip) o;
         if(!this.ship.equals(t.ship)){
             return false;
         }
