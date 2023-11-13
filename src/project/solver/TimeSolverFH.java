@@ -58,6 +58,8 @@ public class TimeSolverFH implements QuestSolver {
         }
         if (copyFleet.size() > 0 && copyResource.size() > 0) {
             for (String resourceStr : copyResource.keySet()) {
+                if(copyFleet.size() == 0)
+                    break;
                 int mengeResour = copyResource.get(resourceStr);
                 Ship underShip = null;
                 Ship overShip = null;
@@ -78,12 +80,13 @@ public class TimeSolverFH implements QuestSolver {
                 } else {
                     trip = new Trip(underShip, resourceStr, underShip.getCapacity());
                     copyResource.replace(resourceStr, (mengeResour - underShip.getCapacity()));
-                    copyFleet.remove(overShip);
+                    copyFleet.remove(underShip);
                 }
                 solution.addTripFH(trip);
             }
         }
-
+        if(copyResource.size() > 0)
+            solution = findSolutions(copyResource, fleet, solution);
         return solution;
     }
 }
