@@ -67,17 +67,17 @@ public class FleetPanel extends JPanel {
 				}
 			}
 		});
-		tpFleetPanel.setBounds(0, 0, 363, 312);
+		tpFleetPanel.setBounds(0, 0, 420, 300);
 		add(tpFleetPanel);
 				
 		JPanel pnFleet = new JPanel();
-		pnFleet.setBounds(0, 0, 363, 290);
+		pnFleet.setBounds(0, 0, 363, 280);
 		tpFleetPanel.add(pnFleet);
 		pnFleet.setLayout(null);
 		
 		JLabel lblFleet = new JLabel("Flotte bearbeiten");
 		lblFleet.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblFleet.setBounds(10, 11, 223, 22);
+		lblFleet.setBounds(36, 10, 223, 22);
 		pnFleet.add(lblFleet);
 
 		btnEdit = new JButton("Bearbeiten");
@@ -86,9 +86,9 @@ public class FleetPanel extends JPanel {
 				tpFleetPanel.setSelectedIndex(1);	
 			}
 		});
-		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnEdit.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnEdit.setEnabled(false);
-		btnEdit.setBounds(218, 217, 110, 25);
+		btnEdit.setBounds(257, 210, 125, 25);
 		pnFleet.add(btnEdit);
 
 		JButton btnDelete = new JButton("Loeschen");
@@ -97,20 +97,20 @@ public class FleetPanel extends JPanel {
 				deleteShip();
 			}
 		});
-		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnDelete.setEnabled(false);
-		btnDelete.setBounds(218, 250, 110, 25);
+		btnDelete.setBounds(257, 242, 125, 25);
 		pnFleet.add(btnDelete);
 
 		JButton btnAdd = new JButton("Hinzufuegen");
-		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addShip = true;
 				tpFleetPanel.setSelectedIndex(1);							
 			}
 		});
-		btnAdd.setBounds(93, 217, 115, 25);
+		btnAdd.setBounds(114, 210, 125, 25);
 		pnFleet.add(btnAdd);
 
 		tblShips = new JTable() {
@@ -135,7 +135,7 @@ public class FleetPanel extends JPanel {
 					clearTableSelection();
 			}
 		});
-		spTable.setBounds(25, 50, 306, 156);
+		spTable.setBounds(36, 43, 346, 156);
 		pnFleet.add(spTable);
 		
 		DefaultTableModel dtm = new DefaultTableModel(0, 0);
@@ -182,7 +182,7 @@ public class FleetPanel extends JPanel {
 		
 		tpFleetPanel.add(sp);
 
-		setBounds(50, 0, 363, 312);				
+		setBounds(50, 0, 472, 421);				
 		setVisible(false);		
 	}
 
@@ -266,5 +266,14 @@ public class FleetPanel extends JPanel {
 		}
 				
 		parent.updateController(new GUIEvent(EventTypes.SHIP_REMOVED, shipInfo));
+	}
+	
+	public void clearView() {
+		tpFleetPanel.setSelectedIndex(0);
+		
+		DefaultTableModel model = (DefaultTableModel) tblShips.getModel();
+		model.setRowCount(0);
+				
+		sp.clearView();
 	}
 }

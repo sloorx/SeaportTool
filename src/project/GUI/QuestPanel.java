@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 import static project.SolverTypes.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
 
 /**
  *
@@ -45,11 +49,17 @@ public class QuestPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnAddQuest = new javax.swing.JButton();
+        btnAddQuest.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnEditQuest = new javax.swing.JButton();
+        btnEditQuest.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnDeleteQuest = new javax.swing.JButton();
+        btnDeleteQuest.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnSolution = new javax.swing.JButton();
+        btnSolution.setFont(new Font("Tahoma", Font.BOLD, 14));
         cmbTypeSolver = new javax.swing.JComboBox<>();
+        cmbTypeSolver.setFont(new Font("Tahoma", Font.BOLD, 14));
         cmbUserSolver = new javax.swing.JComboBox<>();
+        cmbUserSolver.setFont(new Font("Tahoma", Font.BOLD, 14));
 
         jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -108,48 +118,56 @@ public class QuestPanel extends javax.swing.JPanel {
         cmbUserSolver.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Loose", "Mehlis", "Castillo" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(btnEditQuest, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnDeleteQuest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSolution, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddQuest, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbTypeSolver, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbUserSolver, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(5)
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+        				.addGroup(layout.createSequentialGroup()
+        					.addComponent(cmbUserSolver, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(cmbTypeSolver, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnSolution, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addComponent(btnAddQuest, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnEditQuest, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnDeleteQuest, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        				.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditQuest)
-                    .addComponent(btnAddQuest)
-                    .addComponent(cmbTypeSolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDeleteQuest)
-                    .addComponent(btnSolution)
-                    .addComponent(cmbUserSolver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(15)
+        			.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(btnAddQuest)
+        				.addComponent(btnEditQuest)
+        				.addComponent(btnDeleteQuest))
+        			.addGap(18)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(cmbUserSolver, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(cmbTypeSolver, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(btnSolution))
+        			.addContainerGap(48, Short.MAX_VALUE))
         );
+        this.setLayout(layout);
+        
+        DefaultTableModel tableModel = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        String titles[] = {"Resource", "Menge"};
+        tableModel.setColumnIdentifiers(titles);
+        jTable1.setModel(tableModel);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addQuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addQuestActionPerformed
@@ -172,7 +190,7 @@ public class QuestPanel extends javax.swing.JPanel {
         enableBtns(false);
     }//GEN-LAST:event_deleteQuestActionPerformed
 
-    private void btnSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolutionActionPerformed
+    public void btnSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolutionActionPerformed
         String type = (String) cmbTypeSolver.getSelectedItem();
         String user = (String) cmbUserSolver.getSelectedItem();
         GUIEvent ge = new GUIEvent(EventTypes.SOLVE, solution(type,user));
@@ -192,17 +210,9 @@ public class QuestPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void updateTable() {
-        DefaultTableModel tableModel = new DefaultTableModel() {
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        String titles[] = {"Resource", "Menge"};
-        tableModel.setColumnIdentifiers(titles);
-
+    	DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();  
+    	tableModel.setRowCount(0);
+    	
         Map<String, Integer> resources = parentFrame.getQuest();
         if(!resources.isEmpty()) {
             resources.forEach((k,v) -> {
@@ -210,8 +220,7 @@ public class QuestPanel extends javax.swing.JPanel {
                 tableModel.addRow(object);
             });
         }
-
-        jTable1.setModel(tableModel);
+        
         enableBtns(false);
     }
 
@@ -267,5 +276,16 @@ public class QuestPanel extends javax.swing.JPanel {
             }
         }
         return typeSolution;
+    }
+    
+    public void clearView(boolean questFormVisible) {
+    	boolean wasVisible = isVisible() || questFormVisible;
+    	enableBtns(false);
+    	
+    	DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+		model.setRowCount(0);
+		
+		if(wasVisible)
+			parentFrame.showQuestPanel(null);
     }
 }

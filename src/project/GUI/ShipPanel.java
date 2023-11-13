@@ -45,18 +45,18 @@ public class ShipPanel extends JPanel {
 	    formatter.setCommitsOnValidEdit(true);
 		
 		tfName = new JTextField();
-		tfName.setBounds(144, 56, 145, 19);
+		tfName.setBounds(175, 66, 164, 19);
 		add(tfName);
 		tfName.setColumns(10);
 				
 		tfCapacity = new JFormattedTextField(formatter);
 		tfCapacity.setColumns(10);
-		tfCapacity.setBounds(144, 109, 145, 19);
+		tfCapacity.setBounds(175, 120, 164, 19);
 		add(tfCapacity);
 
 		tfAmount = new JFormattedTextField(formatter);
 		tfAmount.setColumns(10);
-		tfAmount.setBounds(144, 158, 145, 19);
+		tfAmount.setBounds(175, 169, 164, 19);
 		add(tfAmount);
 		
 		DocumentListener dl = new DocumentListener() {
@@ -77,38 +77,38 @@ public class ShipPanel extends JPanel {
 
 		JLabel lblName = new JLabel("Name:");
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblName.setBounds(45, 56, 78, 13);
+		lblName.setBounds(76, 67, 78, 13);
 		add(lblName);
 
 		JLabel lblCapacity = new JLabel("Kapazitaet:");
 		lblCapacity.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCapacity.setBounds(45, 104, 89, 18);
+		lblCapacity.setBounds(76, 115, 89, 18);
 		add(lblCapacity);
 
 		JLabel lblAmount = new JLabel("Anzahl:");
 		lblAmount.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblAmount.setBounds(45, 156, 78, 13);
+		lblAmount.setBounds(76, 167, 78, 13);
 		add(lblAmount);
 
 		lblShip = new JLabel("Schiff bearbeiten");
 		lblShip.setHorizontalAlignment(SwingConstants.LEFT);
 		lblShip.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblShip.setBounds(29, 11, 199, 19);
+		lblShip.setBounds(54, 21, 199, 34);
 		add(lblShip);
 
 		btnSave = new JButton("Speichern");
-		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSave.setBounds(183, 199, 106, 21);
+		btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnSave.setBounds(214, 210, 125, 21);
 		add(btnSave);
 
 		btnDelete = new JButton("Loeschen");
-		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnDelete.setBounds(67, 199, 106, 21);
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnDelete.setBounds(76, 210, 125, 21);
 		add(btnDelete);
 
 		btnCancel = new JButton("Abbrechen");
-		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(183, 230, 106, 21);
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCancel.setBounds(214, 241, 125, 21);
 		add(btnCancel);
 	}
 

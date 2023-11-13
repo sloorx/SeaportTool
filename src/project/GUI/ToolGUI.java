@@ -29,6 +29,7 @@ import java.awt.Component;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Panel;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
 
@@ -53,7 +54,7 @@ public class ToolGUI extends JFrame implements Runnable {
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		setBounds(100, 100, 500, 400);
+		setBounds(100, 100, 500, 450);
 
 		JMenuBar mbMain = new JMenuBar();
 		setJMenuBar(mbMain);
@@ -129,6 +130,7 @@ public class ToolGUI extends JFrame implements Runnable {
 		pnContentPane.add(pnButtons);
 
 		JButton btnShips = new JButton("Flotte");
+		btnShips.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnShips.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || solutionslistGUI.isVisible() || solutionGUI.isVisible()) {
@@ -142,17 +144,19 @@ public class ToolGUI extends JFrame implements Runnable {
 		});
 
 		JButton btnQuest = new JButton("Quest");
+		btnQuest.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		JButton btnSolution = new JButton("Loesung");
+		btnSolution.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSolution.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || fp.isVisible() || solutionGUI.isVisible()) {
-					questPanelGUI.setVisible(false);
 					questFormGUI.setVisible(false);
 					fp.setVisible(false);
 					solutionGUI.setVisible(false);
 				}
-				solutionslistGUI.setVisible(true);
+				
+				questPanelGUI.btnSolutionActionPerformed(null);				
 			}
 		});
 
@@ -174,24 +178,24 @@ public class ToolGUI extends JFrame implements Runnable {
 		pnMain.setLayout(null);
 
 		questFormGUI = new QuestForm(this);
-		questFormGUI.setBounds(0, 0, 421, 303);
+		questFormGUI.setBounds(0, 0, 421, 338);
 		pnMain.add(questFormGUI);
 
 		questPanelGUI = new QuestPanel(this);
-		questPanelGUI.setBounds(0, 0, 421, 303);
+		questPanelGUI.setBounds(0, 0, 421, 338);
 		pnMain.add(questPanelGUI);
 
 		fp = new FleetPanel(this);
-		fp.setBounds(0, 0, 421, 303);
+		fp.setBounds(0, 0, 421, 470);
 		pnMain.add(fp);
 
 		solutionslistGUI = new SolutionsListGui(this);
-		solutionslistGUI.setBounds(0, 0, 421, 303);
+		solutionslistGUI.setBounds(0, 0, 421, 338);
 		pnMain.add(solutionslistGUI);
 		solutionslistGUI.setTitleTable();
 
 		solutionGUI = new SolutionGui(this);
-		solutionGUI.setBounds(0, 0, 421, 303);
+		solutionGUI.setBounds(0, 0, 421, 338);
 		pnMain.add(solutionGUI);
 
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -257,6 +261,13 @@ public class ToolGUI extends JFrame implements Runnable {
 						solutions.add((Solution) params.get(i));
 					}
 					setSolutionsToGUI(solutions);
+					break;
+				case CLEAR:				
+					fp.clearView();
+					questPanelGUI.clearView(questFormGUI.isVisible());
+					questFormGUI.clearView();					
+					solutionGUI.clearView();
+					solutionslistGUI.clearView();
 					break;
 				default:
 					break;

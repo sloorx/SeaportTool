@@ -12,6 +12,10 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.awt.Font;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  * @author fcastillo
@@ -41,6 +45,7 @@ public class SolutionGui extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSolution = new javax.swing.JTable();
         btnBack = new javax.swing.JButton();
+        btnBack.setFont(new Font("Tahoma", Font.BOLD, 14));
 
         tblSolution.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
@@ -63,27 +68,27 @@ public class SolutionGui extends javax.swing.JPanel {
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(14, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBack)
-                                .addGap(28, 28, 28))
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(16)
+        			.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 382, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(52, Short.MAX_VALUE))
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap(338, Short.MAX_VALUE)
+        			.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+        			.addGap(24))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBack)
-                                .addContainerGap(8, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(btnBack)
+        			.addContainerGap(17, Short.MAX_VALUE))
         );
+        this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -120,4 +125,11 @@ public class SolutionGui extends javax.swing.JPanel {
         tblSolution.setModel(tableModel);
     }
     // End of variables declaration//GEN-END:variables
+    
+    public void clearView() {
+    	DefaultTableModel model = (DefaultTableModel) tblSolution.getModel();
+		model.setRowCount(0);
+		
+		setVisible(false);
+    }
 }

@@ -12,6 +12,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
 
 /**
  * @author fcastillo
@@ -62,7 +65,8 @@ public class QuestForm extends javax.swing.JPanel {
         txtMenge.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         cmbResource.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbResource.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gem", "Münze", "Fisch", "Holz", "Stein", "Eisen"}));
+        cmbResource.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gem", "Muenze", "Fisch", "Holz", "Stein", "Eisen"}));
+        cmbResource.setEditable(true);
         
         DocumentListener dl = new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
@@ -81,48 +85,48 @@ public class QuestForm extends javax.swing.JPanel {
         txtMenge.getDocument().addDocumentListener(dl);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(labelRes)
-                                                        .addComponent(labelMenge))
-                                                .addGap(24, 24, 24)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(txtMenge, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                                                        .addComponent(cmbResource, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addComponent(labelTitle))
-                                .addContainerGap(61, Short.MAX_VALUE))
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addGap(23)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(labelRes)
+        						.addComponent(labelMenge))
+        					.addGap(57)
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING, false)
+        						.addComponent(cmbResource, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(txtMenge, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)))
+        				.addComponent(labelTitle))
+        			.addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(labelTitle)
-                                .addGap(34, 34, 34)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(labelRes)
-                                        .addComponent(cmbResource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(37, 37, 37)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtMenge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(labelMenge))
-                                .addContainerGap(32, Short.MAX_VALUE))
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addGap(25)
+        			.addComponent(labelTitle)
+        			.addGap(34)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(labelRes)
+        				.addComponent(cmbResource, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGap(37)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(labelMenge)
+        				.addComponent(txtMenge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap(32, Short.MAX_VALUE))
         );
+        jPanel1.setLayout(jPanel1Layout);
 
-        btnClean.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnClean.setText("Löeschen");
+        btnClean.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        btnClean.setText("Loeschen");
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCleanActionPerformed(evt);
             }
         });
 
-        btnSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
         btnSave.setText("Speichern");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +134,7 @@ public class QuestForm extends javax.swing.JPanel {
             }
         });
 
-        btnCancel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
         btnCancel.setText("Abbrechen");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,33 +143,37 @@ public class QuestForm extends javax.swing.JPanel {
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(btnClean, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(btnCancel)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(78)
+        					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        						.addComponent(btnCancel)
+        						.addGroup(layout.createSequentialGroup()
+        							.addComponent(btnClean, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+        							.addGap(18)
+        							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)))
+        					.addPreferredGap(ComponentPlacement.RELATED)))
+        			.addGap(61))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(btnSave)
-                                        .addComponent(btnCancel)
-                                        .addComponent(btnClean))
-                                .addContainerGap(18, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(btnClean)
+        				.addComponent(btnSave))
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(btnCancel)
+        			.addContainerGap(26, Short.MAX_VALUE))
         );
+        this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
@@ -221,12 +229,8 @@ public class QuestForm extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void showDialog(String message) {
-        txtMenge.setText("");
-        JOptionPane optionPane = new JOptionPane(message);
-        optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-        JDialog dialog = optionPane.createDialog("Message");
-        dialog.setAlwaysOnTop(true);
-        dialog.setVisible(true);
+        txtMenge.setText("");       
+        parentFrame.showException(message);
     }
 
     public void editQuest(String editElement, String editMenge) {
@@ -237,7 +241,7 @@ public class QuestForm extends javax.swing.JPanel {
     }
 
     public void setTitleNewQuest() {
-        labelTitle.setText("Quest Hinzufuegen");
+        labelTitle.setText("Quest hinzufuegen");
         isEdit = false;
         cleanInputs();
     }
@@ -245,5 +249,10 @@ public class QuestForm extends javax.swing.JPanel {
     private void cleanInputs() {
         txtMenge.setText("");
         cmbResource.setSelectedIndex(0);
+    }
+    
+    public void clearView() {
+    	cleanInputs();    	
+    	setVisible(false);
     }
 }

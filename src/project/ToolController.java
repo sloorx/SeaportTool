@@ -152,6 +152,8 @@ public class ToolController {
                         loadEvents.clear();
                         retval = this.load((String) params.get(0));
                         if (retval) {
+                        	gui.updateGUI(new GUIEvent(EventTypes.CLEAR, null));
+                        	
                             for (GUIEvent g : loadEvents) {
                                 gui.updateGUI(g);
                             }

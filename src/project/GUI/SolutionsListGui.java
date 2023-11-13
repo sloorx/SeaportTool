@@ -9,7 +9,14 @@ import project.Solution;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
 import java.util.List;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.ListSelectionModel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
 
 /**
  *
@@ -40,6 +47,7 @@ public class SolutionsListGui extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSolutions = new javax.swing.JTable();
         btnOpen = new javax.swing.JButton();
+        btnOpen.setFont(new Font("Tahoma", Font.BOLD, 14));
         jLabel1 = new javax.swing.JLabel();
 
         tblSolutions.setModel(new javax.swing.table.DefaultTableModel(
@@ -57,7 +65,7 @@ public class SolutionsListGui extends javax.swing.JPanel {
         tblSolutions.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
-                btnOpen.setEnabled(true);
+                btnOpen.setEnabled(tblSolutions.getSelectedRow() > - 1);
             }
         });
 
@@ -72,33 +80,28 @@ public class SolutionsListGui extends javax.swing.JPanel {
         jLabel1.setText("Loesungen");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(btnOpen))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap(38, Short.MAX_VALUE)
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jLabel1)
+        				.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 373, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(btnOpen, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(btnOpen)
-                .addContainerGap())
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jLabel1)
+        			.addGap(7)
+        			.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(btnOpen)
+        			.addContainerGap(16, Short.MAX_VALUE))
         );
+        this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
@@ -131,9 +134,12 @@ public class SolutionsListGui extends javax.swing.JPanel {
     }
 
     public void updateTable(List<Solution> solutions) {
-        DefaultTableModel dtm = (DefaultTableModel) tblSolutions.getModel();
+        DefaultTableModel dtm = (DefaultTableModel) tblSolutions.getModel();          
+        
         dtm.setRowCount(0);
 
+        if (solutions == null)
+        	return;
         if(solutions.isEmpty())
             return;
         this.solutions = solutions;
@@ -141,9 +147,16 @@ public class SolutionsListGui extends javax.swing.JPanel {
             Object[]  object = {(i+1),solutions.get(i).getTurnCount(), solutions.get(i).getFreeCapacity()};
             ((DefaultTableModel)tblSolutions.getModel()).addRow(object);
         }
+        
+        
     }
 
     public List<Solution> getSolutions() {
         return solutions;
+    }
+    
+    public void clearView() {
+    	updateTable(null);
+    	setVisible(false);    	
     }
 }

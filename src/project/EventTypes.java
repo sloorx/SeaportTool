@@ -12,5 +12,6 @@ public enum EventTypes {
     ERROR,
     SAVE,
     LOAD,
-    EXIT
+    EXIT,
+    CLEAR
 }
