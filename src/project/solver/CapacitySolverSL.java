@@ -67,7 +67,9 @@ public class CapacitySolverSL implements QuestSolver {
         temp_solutions = new LinkedList<Solution>();
         for(Solution s : solutions){
             if(s.getTurnCount() == best){
-                temp_solutions.add(s);
+                if(!temp_solutions.contains(s)){
+                    temp_solutions.add(s);
+                }
             }
         }
         return temp_solutions;
