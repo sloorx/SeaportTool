@@ -125,7 +125,7 @@ public class ToolController {
                                 solver = new CapacitySolverSL();
                                 break;
                             case TIME_SL:
-                                // solver = new TimeSolverSL();
+                                solver = new TimeSolverSL();
                                 break;
                             default:
                                 break;
