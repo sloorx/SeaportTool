@@ -130,11 +130,18 @@ public class ToolController {
                             default:
                                 break;
                         }
-                        if (solver != null) {
-                            solutions = solver.solve(quest);
-                            params = new ArrayList<>(solutions);
-                            gui.updateGUI(new GUIEvent(EventTypes.SOLUTION_ADDED, params));
+                        if (!fleet.getShips().isEmpty()){
+                            if (solver != null) {
+                                solutions = solver.solve(quest);
+                                params = new ArrayList<>(solutions);
+                                gui.updateGUI(new GUIEvent(EventTypes.SOLUTION_ADDED, params));
+                            }
+                        } else {
+                            params = new ArrayList<>();
+                            params.add("Keine Schiffe vorhanden");
+                            gui.updateGUI(new GUIEvent(EventTypes.ERROR, params));
                         }
+                        
                         break;
 
                     case SAVE:
@@ -153,7 +160,6 @@ public class ToolController {
                         retval = this.load((String) params.get(0));
                         if (retval) {
                         	gui.updateGUI(new GUIEvent(EventTypes.CLEAR, null));
-                        	
                             for (GUIEvent g : loadEvents) {
                                 gui.updateGUI(g);
                             }
