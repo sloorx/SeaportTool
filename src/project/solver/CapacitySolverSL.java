@@ -11,6 +11,10 @@ import project.Ship;
 import project.Solution;
 import project.Trip;
 
+/**
+ * @author Simon Loose
+ * Calculates the solution for a quest with free capacity as the primary quality-factor and number of turns as the secondary quality-factor
+ */
 public class CapacitySolverSL implements QuestSolver {
 
     @Override
@@ -75,7 +79,11 @@ public class CapacitySolverSL implements QuestSolver {
         return temp_solutions;
     }
     
-
+    /**
+     * Calculates the best solution (based on unused capacity) for a single resource
+     * @param amount the amount of the resource to distribute to ships
+     * @return a list of ship combinations that can transport the given amount of a resource
+     */
     private List<List<Ship>> solveResource(int amount){
         List<List<Ship>> ret = new ArrayList<>();
         List<List<Ship>> temp;

@@ -12,6 +12,11 @@ import project.Ship;
 import project.Solution;
 import project.Trip;
 
+
+/**
+ * @author Simon Loose
+ * Calculates the solution for a quest with number of turns as the primary quality-factor and unused capacity as the secondary quality-factor
+ */
 public class TimeSolverSL implements QuestSolver {
 
     private Quest quest;
@@ -63,7 +68,12 @@ public class TimeSolverSL implements QuestSolver {
         return result;
     }
     
-
+    /**
+     * Expands a given solution with all possible resource-ship combinations
+     * @param s the solution to expand
+     * @param solvedReference a finished solution to filter out results that are worse than this solution or null if no solution is finished
+     * @return a list of soultions based on the given solution each with one resource-ship-combination added
+     */
     private List<Solution> expandSolution(Solution s, Solution solvedReference){
         List<Solution> solutions = new LinkedList<>();
         Fleet fleet = Fleet.getInstance();
