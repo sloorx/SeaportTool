@@ -119,7 +119,7 @@ public class QuestForm extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
 
         btnClean.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
-        btnClean.setText("Loeschen");
+        btnClean.setText("Eingabe loeschen");
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCleanActionPerformed(evt);
@@ -146,18 +146,18 @@ public class QuestForm extends javax.swing.JPanel {
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(layout.createSequentialGroup()
-        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addContainerGap(32, Short.MAX_VALUE)
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
         				.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         				.addGroup(layout.createSequentialGroup()
-        					.addGap(78)
+        					.addGap(18)
         					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
         						.addComponent(btnCancel)
         						.addGroup(layout.createSequentialGroup()
-        							.addComponent(btnClean, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+        							.addComponent(btnClean, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
         							.addGap(18)
         							.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)))
-        					.addPreferredGap(ComponentPlacement.RELATED)))
+        					.addGap(123)))
         			.addGap(61))
         );
         layout.setVerticalGroup(
@@ -169,9 +169,9 @@ public class QuestForm extends javax.swing.JPanel {
         			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
         				.addComponent(btnClean)
         				.addComponent(btnSave))
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(btnCancel)
-        			.addContainerGap(26, Short.MAX_VALUE))
+        			.addContainerGap(32, Short.MAX_VALUE))
         );
         this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
@@ -248,7 +248,7 @@ public class QuestForm extends javax.swing.JPanel {
 
     private void cleanInputs() {
         txtMenge.setText("");
-        cmbResource.setSelectedIndex(0);
+        cmbResource.setSelectedIndex(-1);
     }
     
     public void clearView() {
