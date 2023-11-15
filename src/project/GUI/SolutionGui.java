@@ -110,7 +110,7 @@ public class SolutionGui extends javax.swing.JPanel {
                 return false;
             }
         };
-        String titles[] = {"Runde", "Schiff", "Ressource", "Menge.", "Freie Kap."};
+        String titles[] = {"Runde", "Schiff", "Ressource", "Menge", "Freie Kap."};
         tableModel.setColumnIdentifiers(titles);
 
         List<Turn> turnList = new ArrayList<>(solution.getTurns());
