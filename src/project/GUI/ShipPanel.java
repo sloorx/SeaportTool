@@ -112,7 +112,7 @@ public class ShipPanel extends JPanel {
 		add(btnCancel);
 	}
 
-	void checkSave() {
+	public void checkSave() {
 		btnSave.setEnabled(!tfName.getText().equals("") && !tfCapacity.getText().equals("") && !tfAmount.getText().equals(""));
 	}
 
