@@ -88,7 +88,7 @@ public class FleetPanel extends JPanel {
 		});
 		btnEdit.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnEdit.setEnabled(false);
-		btnEdit.setBounds(257, 210, 125, 25);
+		btnEdit.setBounds(253, 210, 130, 25);
 		pnFleet.add(btnEdit);
 
 		JButton btnDelete = new JButton("Loeschen");
@@ -99,7 +99,7 @@ public class FleetPanel extends JPanel {
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnDelete.setEnabled(false);
-		btnDelete.setBounds(257, 242, 125, 25);
+		btnDelete.setBounds(253, 242, 130, 25);
 		pnFleet.add(btnDelete);
 
 		JButton btnAdd = new JButton("Hinzufuegen");
@@ -110,7 +110,7 @@ public class FleetPanel extends JPanel {
 				tpFleetPanel.setSelectedIndex(1);							
 			}
 		});
-		btnAdd.setBounds(114, 210, 125, 25);
+		btnAdd.setBounds(104, 210, 130, 25);
 		pnFleet.add(btnAdd);
 
 		tblShips = new JTable() {
