@@ -116,10 +116,10 @@ public class ToolController {
                                 solver = new TimeSolverFH();
                                 break;
                             case CAPACITY_CM:
-                                // solver = new CapacitySolverCM();
+                                solver = new CapacitySolverCM();
                                 break;
                             case TIME_CM:
-                                // solver = new TimeSolverCM();
+                                solver = new TimeSolverCM();
                                 break;
                             case CAPACITY_SL:
                                 solver = new CapacitySolverSL();
