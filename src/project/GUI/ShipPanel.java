@@ -11,11 +11,7 @@ import javax.swing.text.NumberFormatter;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
-import java.awt.event.ActionListener;
 import java.text.NumberFormat;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class ShipPanel extends JPanel {
 

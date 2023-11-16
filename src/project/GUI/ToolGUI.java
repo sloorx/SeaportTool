@@ -26,12 +26,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import java.awt.Component;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Panel;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
 
 public class ToolGUI extends JFrame implements Runnable {
 
