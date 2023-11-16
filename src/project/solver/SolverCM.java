@@ -2,8 +2,8 @@ package project.solver;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import project.Fleet;
 import project.Quest;
@@ -24,6 +24,7 @@ public class SolverCM implements QuestSolver {
 
 	private ISolverCM solver;
 	private boolean isTimeSolver;
+	private int minFreeCapacity;
 
 	/**
 	 * Constructor for the SolverCM class.
@@ -51,17 +52,17 @@ public class SolverCM implements QuestSolver {
 
 		sortLists(q, resources, ships);
 
-		List<List<Trip>> resourceTrips = new ArrayList<>();		
-		List<List<Trip>> combinedTrips = new ArrayList<>();
+		List<List<Trip>> resourceTrips = new LinkedList<>();		
+		List<List<Trip>> combinedTrips = new LinkedList<>();
 
 		// generate trips for each resource
 		for (String resource : resources) {
+			minFreeCapacity = Integer.MAX_VALUE;
+			
 			if (combinedTrips.isEmpty())
-				generateTrips(resource, q.getValue(resource), ships, new ArrayList<>(), combinedTrips,
-						Integer.MAX_VALUE);
+				generateTrips(resource, q.getValue(resource), ships, new LinkedList<>(), combinedTrips);
 			else {
-				generateTrips(resource, q.getValue(resource), ships, new ArrayList<>(), resourceTrips,
-						Integer.MAX_VALUE);
+				generateTrips(resource, q.getValue(resource), ships, new LinkedList<>(), resourceTrips);
 				
 				// combine all trips from previouse ressources with trips of current ressource
 				combinedTrips = combineAllTrips(combinedTrips, resourceTrips);
@@ -69,15 +70,33 @@ public class SolverCM implements QuestSolver {
 			}
 		}
 
-		List<Solution> result = new ArrayList<Solution>();
+		List<Solution> result = new LinkedList<>();
+		int currentFreeCapacity;
+		int i = 0;
+		minFreeCapacity = Integer.MAX_VALUE;
 		// add combined trips to single solutions
-		for (List<Trip> trips : combinedTrips) {
-			Solution solution = new Solution();
-			
-			for (Trip trip : trips) 
-				solution.addTrip(trip);
-			
-			result.add(solution);
+		try {		
+			for (List<Trip> trips : combinedTrips) {
+				Solution solution = new Solution();
+				
+				for (Trip trip : trips) 
+					solution.addTrip(trip);
+				
+				currentFreeCapacity = solution.getFreeCapacity();
+				i++;
+				
+				if (i > 4500000) 
+					throw new Exception("SolverCM: Zu viele mögliche Lösungen");
+				
+				if ((currentFreeCapacity <= minFreeCapacity) || (isTimeSolver)) {										
+						result.add(solution);
+						
+						if ((currentFreeCapacity < minFreeCapacity) && (!isTimeSolver))
+							minFreeCapacity = currentFreeCapacity;
+				}
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
 		}
 
 		return getSolutionsAndRemoveDuplicates(result, q);
@@ -149,29 +168,21 @@ public class SolverCM implements QuestSolver {
 
 	/**
 	 * Combines two lists of trips into a new list of trips.
-	 *  Removes duplicate trips from the combined list.
 	 * 
 	 * @param trips1 The first list of trips.
 	 * @param trips2 The second list of trips.
 	 * @return A list of unique trips combined from the input lists.
 	 */
 	private List<List<Trip>> combineAllTrips(List<List<Trip>> trips1, List<List<Trip>> trips2) {
-		List<List<Trip>> combinedTrips = new ArrayList<>();
+		List<List<Trip>> combinedTrips = new LinkedList<>();
 
 		for (List<Trip> list1 : trips1) {
 			for (List<Trip> list2 : trips2) {
-				List<Trip> combinedList = new ArrayList<>(list1);
+				List<Trip> combinedList = new LinkedList<>(list1);								
 				combinedList.addAll(list2);
-				
-				// Remove duplicates using equals method of Trip class
-	            combinedList = combinedList.stream().distinct().collect(Collectors.toList());
-
 				combinedTrips.add(combinedList);
 			}
 		}
-
-		// Remove duplicates from the final combined list
-	    combinedTrips = combinedTrips.stream().distinct().collect(Collectors.toList());
 
 		return combinedTrips;
 	}
@@ -185,17 +196,20 @@ public class SolverCM implements QuestSolver {
 	 * @param ships           The list of available ships.
 	 * @param currentTrips    The current list of trips being generated.
 	 * @param result          The list to store the generated trips.
-	 * @param minFreeCapacity The minimum free capacity criterion.
 	 */
 	private void generateTrips(String resource, int amount, List<Ship> ships, List<Trip> currentTrips,
-			List<List<Trip>> result, int minFreeCapacity) {
+			List<List<Trip>> result) {
 
 		// resource is completely divided
 		if (amount == 0) {
 			// check if trips have bigger value of free capacity
 			int currentFreeCapacity = calculateFreeCapacity(currentTrips);
-			if ((currentFreeCapacity <= minFreeCapacity) || (isTimeSolver))
-				result.add(new ArrayList<>(currentTrips));
+			if ((currentFreeCapacity <= minFreeCapacity) || (isTimeSolver)) {
+				result.add(new LinkedList<>(currentTrips));
+				
+				if ((currentFreeCapacity < minFreeCapacity) && (!isTimeSolver))
+					minFreeCapacity = currentFreeCapacity;
+			}
 
 			return;
 		}
@@ -204,14 +218,13 @@ public class SolverCM implements QuestSolver {
 			int usedSpace = Math.min(amount, ship.getCapacity());
 
 			// skip trip, if free capacity is bigger than minFreeCapacity
-//			if ((ship.getCapacity() - usedSpace > minFreeCapacity) && (!isTimeSolver))
-//				continue;
+			if ((ship.getCapacity() - usedSpace > minFreeCapacity) && (!isTimeSolver))
+				continue;
 
 			currentTrips.add(new Trip(ship, resource, usedSpace));
 
 			// split rest amount of resource to other ships
-			generateTrips(resource, amount - usedSpace, ships, currentTrips, result,
-					calculateFreeCapacity(currentTrips));
+			generateTrips(resource, amount - usedSpace, ships, currentTrips, result);
 
 			// reset to previous state, delete last added trip
 			currentTrips.remove(currentTrips.size() - 1);
