@@ -3,15 +3,26 @@ package project;
 import java.util.List;
 import java.util.ArrayList;
 
+
+/**
+ * Soltuion for a quest. Contains the turns which contain the trips.
+ */
 public class Solution {
 	private List<Turn> turns;
 	private int freeCapacity;
 
+	/**
+	 * Creates a new empty solution
+	 */
 	public Solution() {
 		turns = new ArrayList<Turn>();
 		freeCapacity = 0;
 	}
 
+	/**
+	 * Creates a copy of the given Solution, turns are copied as a deep-copy, trips are copied as a reference
+	 * @param s The Solution to copy
+	 */
 	public Solution(Solution s) {
 		turns = new ArrayList<>();
 		if(s == null){
@@ -24,6 +35,11 @@ public class Solution {
 		}
 	}
 
+	/**
+	 * Adds a trip to a solution. The trip will automatically be added in the first turn where the trip is possible.
+	 * @param trip The trip to add
+	 * @return The turn where the trip was added
+	 */
 	public int addTrip(Trip trip) {
 		int shipcount;
 		List<Trip> trips;
@@ -47,15 +63,27 @@ public class Solution {
 		return turns.size() - 1;
 	}
 
+	/**
+	 * Adds a trip to the last turn
+	 * @param trip The trip to add
+	 */
     public void addTripFH(Trip trip) {
         freeCapacity += trip.getShip().getCapacity() - trip.getAmount();
         turns.get(turns.size() - 1).addTrips(trip);
     }
 
+	/**
+	 * Returns the turns of the solution
+	 * @return
+	 */
     public List<Turn> getTurns() {
         return turns;
     }
 
+	/**
+	 * Adds a turn to the end of a solution
+	 * @param turn The turn to add
+	 */
     public void addTurn(Turn turn) {
         if(!turn.getTrips().isEmpty()){
             for(Trip trip : turn.getTrips()){
@@ -65,14 +93,27 @@ public class Solution {
         this.turns.add(turn);
     }
 
+	/**
+	 * Returns the number of turns
+	 * @return
+	 */
     public int getTurnCount(){
         return turns.size();
     }
 
+	/**
+	 * Returns the unused capacity in the solution
+	 * @return
+	 */
     public int getFreeCapacity() {
         return freeCapacity;
     }
     
+	/**
+	 * Returns a list of trips of a solution
+	 * @param solution
+	 * @return
+	 */
 	private List<Trip> getAllTrips(Solution solution) {
 		List<Trip> trips = new ArrayList<>();
 		for (Turn turn : solution.getTurns()) {
@@ -105,6 +146,11 @@ public class Solution {
 		return trips2.isEmpty();
     }
 
+	/**
+	 * Checks if this solution solves a given quest.
+	 * @param q
+	 * @return
+	 */
 	public boolean solves(Quest q){
 		int amount;
 		List<Trip> trips = getAllTrips(this);
@@ -122,6 +168,11 @@ public class Solution {
 		return true;
 	}
 
+	/**
+	 * Returns the amount of a specified resource transported by this solution
+	 * @param resource
+	 * @return
+	 */
 	public int getTransportedAmount(String resource){
 		int amount = 0;
 		List<Trip> trips = getAllTrips(this);
