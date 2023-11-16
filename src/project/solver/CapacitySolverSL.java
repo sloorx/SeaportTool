@@ -71,7 +71,7 @@ public class CapacitySolverSL implements QuestSolver {
         temp_solutions = new LinkedList<Solution>();
         for(Solution s : solutions){
             if(s.getTurnCount() == best){
-                if(!temp_solutions.contains(s)){
+                if(!temp_solutions.contains(s)){        // check for duplicates
                     temp_solutions.add(s);
                 }
             }
@@ -93,16 +93,16 @@ public class CapacitySolverSL implements QuestSolver {
         int best = Integer.MIN_VALUE;
 
         for(Ship s : fleet.getShips()){
-            deltaCap = amount - s.getCapacity();
-            if( deltaCap > 0){
-                temp = solveResource(deltaCap);
+            deltaCap = amount - s.getCapacity();    // deltaCap > 0: resource remaining, < 0: capacity remaining
+            if( deltaCap > 0){                      // More resource than fits on the ship?
+                temp = solveResource(deltaCap);     // -> recursion
                 shipList = temp.get(0);
                 sum = 0;
                 for(Ship t : shipList){
                     sum += t.getCapacity();
                 }
                 deltaCap -= sum;
-                if(deltaCap >= best){
+                if(deltaCap >= best){               // Only add better/equal solutions
                     for(List<Ship> sl : temp){
                         shipList = new ArrayList<>(sl);
                         shipList.add(s);
@@ -111,7 +111,7 @@ public class CapacitySolverSL implements QuestSolver {
                     best = deltaCap;
                 }
             }else{
-                if(deltaCap >= best){
+                if(deltaCap >= best){               // Only add better/equal solutions
                     shipList = new ArrayList<>();
                     shipList.add(s);
                     ret.add(shipList);
@@ -120,7 +120,7 @@ public class CapacitySolverSL implements QuestSolver {
             }
         }
         temp = new ArrayList<>();
-        for(List<Ship> sl : ret){
+        for(List<Ship> sl : ret){                   // remove all solutions that are worse than the best
             sum = 0;
             for(Ship s : sl){
                 sum += s.getCapacity();

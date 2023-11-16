@@ -30,20 +30,21 @@ public class TimeSolverSL implements QuestSolver {
         Solution next = null;
         TimeComparator comp = new TimeComparator();
         this.quest = q;
-        solutions.add(new Solution());
+
+        solutions.add(new Solution());                          // start with empty solution
         while(!solutions.isEmpty()){
-            next = solutions.poll();
+            next = solutions.poll();                            // get current best from queue
             if(ref != null){
-                if(comp.compare(ref, next) < 0){
+                if(comp.compare(ref, next) < 0){                // skip solution if it is worse than known solution that solves quest
                     continue;
                 }
             }
-            temp = expandSolution(next, ref);
+            temp = expandSolution(next, ref);                   // add all ship-resource combinations to the solution
             for(Solution s: temp){
-                if(s.solves(q)){
+                if(s.solves(q)){                                // solves the quest?
                     if(ref != null){
-                        if(comp.compare(s, ref) <= 0){
-                            if(comp.compare(s, ref) < 0){
+                        if(comp.compare(s, ref) <= 0){          // better or equal than previous best?
+                            if(comp.compare(s, ref) < 0){       // better? -> discard previous solutions
                                 ref = s;
                                 result.clear();
                             }
@@ -60,7 +61,7 @@ public class TimeSolverSL implements QuestSolver {
         }
         temp = result;
         result = new LinkedList<>();
-        for(Solution s: temp){
+        for(Solution s: temp){                                  // remove duplicates/permutations
             if(!result.contains(s)){
                 result.add(s);
             }
