@@ -2,6 +2,9 @@ package project;
 
 import java.util.List;
 
+/**
+ * Classes implementing this interface create solutions that solve a given quest
+ */
 public interface QuestSolver {
 
     /**

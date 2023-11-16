@@ -17,6 +17,9 @@ public class ToolController {
     private ToolGUI gui;
     private List<GUIEvent> loadEvents;
 
+    /**
+     * Creates a new ToolController and initializes it. Setting the ToolGUI with the setGUI method is required before calling the run method
+     */
     public ToolController() {
         eventQueue = new LinkedBlockingDeque<GUIEvent>();
         fleet = Fleet.getInstance();
@@ -32,6 +35,10 @@ public class ToolController {
         this.gui = gui;
     }
 
+    /**
+     * The main loop of the controller. Waits for new events and acts accordingly.
+     * A ToolGUI has to be set with the setGUI method before calling this method.
+     */
     public void run() {
         GUIEvent event;
         List<Object> params;
@@ -281,6 +288,10 @@ public class ToolController {
         return false;
     }
 
+    /**
+     * Passthrough for the getQuest method of the quest used by this ToolController
+     * @return
+     */
     public Map<String, Integer> getQuest() {
         return quest.getQuest();
     }

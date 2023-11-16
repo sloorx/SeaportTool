@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The quest class contains the list of required resources and offers methods for managing them.
+ */
 public class Quest {
     private Map<String, Integer> resources;
 

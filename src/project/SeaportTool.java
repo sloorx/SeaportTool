@@ -2,6 +2,9 @@ package project;
 
 import project.GUI.ToolGUI;
 
+/**
+ * The main class of the seaport-tool. Launches the controller and the gui
+ */
 public class SeaportTool {
 
     public static void main(String[] args) {

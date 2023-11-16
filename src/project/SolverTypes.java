@@ -1,4 +1,8 @@
 package project;
+
+/**
+ * Enum of the available questsolvers
+ */
 public enum SolverTypes {
     CAPACITY_FH,
     TIME_FH,
