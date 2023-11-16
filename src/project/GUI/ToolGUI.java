@@ -29,6 +29,14 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.Font;
 
+/**
+ * @author Christoph Mehlis
+ * 
+ *         The ToolGUI class represents the main graphical user interface for
+ *         the Seaport Tool application. It provides functionality for loading
+ *         and saving data, as well as managing different panels for fleet,
+ *         quests, solutions, and individual solutions.
+ */
 public class ToolGUI extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 9152709864005137965L;
@@ -129,7 +137,8 @@ public class ToolGUI extends JFrame implements Runnable {
 		btnShips.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnShips.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || solutionslistGUI.isVisible() || solutionGUI.isVisible()) {
+				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || solutionslistGUI.isVisible()
+						|| solutionGUI.isVisible()) {
 					questPanelGUI.setVisible(false);
 					questFormGUI.setVisible(false);
 					solutionslistGUI.setVisible(false);
@@ -145,14 +154,15 @@ public class ToolGUI extends JFrame implements Runnable {
 		JButton btnSolution = new JButton("Loesung");
 		btnSolution.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSolution.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || fp.isVisible() || solutionGUI.isVisible()) {
+			public void actionPerformed(ActionEvent e) {
+				if (questPanelGUI.isVisible() || questFormGUI.isVisible() || fp.isVisible()
+						|| solutionGUI.isVisible()) {
 					questFormGUI.setVisible(false);
 					fp.setVisible(false);
 					solutionGUI.setVisible(false);
 				}
-				
-				questPanelGUI.btnSolutionActionPerformed(null);				
+
+				questPanelGUI.btnSolutionActionPerformed(null);
 			}
 		});
 
@@ -220,6 +230,9 @@ public class ToolGUI extends JFrame implements Runnable {
 		});
 	}
 
+	/**
+	 * Runs the ToolGUI thread and waits for fired events.
+	 */
 	@Override
 	public void run() {
 		List<Object> params;
@@ -253,15 +266,15 @@ public class ToolGUI extends JFrame implements Runnable {
 					break;
 				case SOLUTION_ADDED:
 					List<Solution> solutions = new ArrayList<>();
-					for(int i = 0; i < params.size(); i++) {
+					for (int i = 0; i < params.size(); i++) {
 						solutions.add((Solution) params.get(i));
 					}
 					setSolutionsToGUI(solutions);
 					break;
-				case CLEAR:				
+				case CLEAR:
 					fp.clearView();
 					questPanelGUI.clearView(questFormGUI.isVisible());
-					questFormGUI.clearView();					
+					questFormGUI.clearView();
 					solutionGUI.clearView();
 					solutionslistGUI.clearView();
 					break;
@@ -273,18 +286,38 @@ public class ToolGUI extends JFrame implements Runnable {
 
 	}
 
+	/**
+	 * Sets the controller for the ToolGUI.
+	 * 
+	 * @param controller The ToolController instance.
+	 */
 	public void setController(ToolController controller) {
 		this.controller = controller;
 	}
 
+	/**
+	 * Updates the GUI with the specified GUIEvent.
+	 * 
+	 * @param event The GUIEvent to process.
+	 */
 	public synchronized void updateGUI(GUIEvent event) {
 		eventQueue.add(event);
 	}
 
+	/**
+	 * Updates the controller with the specified GUIEvent.
+	 * 
+	 * @param event The GUIEvent to process.
+	 */
 	public void updateController(GUIEvent event) {
 		controller.update(event);
 	}
 
+	/**
+	 * Shows the quest panel when the "Quest" button is clicked.
+	 * 
+	 * @param e The ActionEvent triggered by the button click.
+	 */
 	public void showQuestPanel(ActionEvent e) {
 		if (fp.isVisible() || questFormGUI.isVisible() || solutionslistGUI.isVisible() || solutionGUI.isVisible()) {
 			fp.setVisible(false);

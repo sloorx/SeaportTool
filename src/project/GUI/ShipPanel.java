@@ -13,6 +13,14 @@ import javax.swing.JFormattedTextField;
 
 import java.text.NumberFormat;
 
+/**
+ * @author Christoph Mehlis
+ * 
+ *         ShipPanel class represents a panel in the graphical user interface
+ *         for adding or editing individual ship details. It includes input
+ *         fields for the ship name, capacity, and amount, as well as buttons
+ *         for saving, deleting, and canceling the operation.
+ */
 public class ShipPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -33,18 +41,18 @@ public class ShipPanel extends JPanel {
 
 		NumberFormat format = NumberFormat.getInstance();
 		format.setGroupingUsed(false);
-	    NumberFormatter formatter = new NumberFormatter(format);
-	    formatter.setValueClass(Integer.class);
-	    formatter.setMinimum(0);
-	    formatter.setMaximum(Integer.MAX_VALUE);
-	    formatter.setAllowsInvalid(true);
-	    formatter.setCommitsOnValidEdit(true);
-		
+		NumberFormatter formatter = new NumberFormatter(format);
+		formatter.setValueClass(Integer.class);
+		formatter.setMinimum(0);
+		formatter.setMaximum(Integer.MAX_VALUE);
+		formatter.setAllowsInvalid(true);
+		formatter.setCommitsOnValidEdit(true);
+
 		tfName = new JTextField();
 		tfName.setBounds(175, 66, 164, 19);
 		add(tfName);
 		tfName.setColumns(10);
-				
+
 		tfCapacity = new JFormattedTextField(formatter);
 		tfCapacity.setColumns(10);
 		tfCapacity.setBounds(175, 120, 164, 19);
@@ -54,19 +62,21 @@ public class ShipPanel extends JPanel {
 		tfAmount.setColumns(10);
 		tfAmount.setBounds(175, 169, 164, 19);
 		add(tfAmount);
-		
+
 		DocumentListener dl = new DocumentListener() {
-			  public void changedUpdate(DocumentEvent e) {
-				  checkSave();
-			  }
-			  public void removeUpdate(DocumentEvent e) {
-				  checkSave();
-			  }
-			  public void insertUpdate(DocumentEvent e) {
-				  checkSave();
-			  }
+			public void changedUpdate(DocumentEvent e) {
+				checkSave();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				checkSave();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				checkSave();
+			}
 		};
-		
+
 		tfName.getDocument().addDocumentListener(dl);
 		tfCapacity.getDocument().addDocumentListener(dl);
 		tfAmount.getDocument().addDocumentListener(dl);
@@ -108,23 +118,39 @@ public class ShipPanel extends JPanel {
 		add(btnCancel);
 	}
 
+	/**
+	 * Checks the input fields and enables or disables the save button accordingly.
+	 */
 	public void checkSave() {
-		btnSave.setEnabled(!tfName.getText().equals("") && !tfCapacity.getText().equals("") && !tfAmount.getText().equals(""));
+		btnSave.setEnabled(
+				!tfName.getText().equals("") && !tfCapacity.getText().equals("") && !tfAmount.getText().equals(""));
 	}
 
+	/**
+	 * Clears the input fields in the ShipPanel.
+	 */
 	public void clearView() {
 		tfName.setText("");
 		tfCapacity.setValue(null);
 		tfAmount.setValue(null);
 	}
 
+	/**
+	 * Prepares the ShipPanel for adding a new ship.
+	 */
 	public void addShip() {
 		lblShip.setText("Schiff hinzufuegen");
 		clearView();
 		btnDelete.setEnabled(false);
 		btnSave.setEnabled(false);
 	}
-	
+
+	/**
+	 * Prepares the ShipPanel for editing an existing ship with the provided values.
+	 * 
+	 * @param values An array of strings containing ship details (name, capacity,
+	 *               amount).
+	 */
 	public void editShip(String[] values) {
 		lblShip.setText("Schiff bearbeiten");
 		oldShipname = values[0];

@@ -1,7 +1,7 @@
 package project;
 
 import java.util.List;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 /**
@@ -15,7 +15,7 @@ public class Solution {
 	 * Creates a new empty solution
 	 */
 	public Solution() {
-		turns = new ArrayList<Turn>();
+		turns = new LinkedList<Turn>();
 		freeCapacity = 0;
 	}
 
@@ -24,7 +24,7 @@ public class Solution {
 	 * @param s The Solution to copy
 	 */
 	public Solution(Solution s) {
-		turns = new ArrayList<>();
+		turns = new LinkedList<>();
 		if(s == null){
 			freeCapacity = 0;
 		}else{
@@ -41,6 +41,23 @@ public class Solution {
 	 * @return The turn where the trip was added
 	 */
 	public int addTrip(Trip trip) {
+//		int freeCapacityChange = trip.getShip().getCapacity() - trip.getAmount();
+//		freeCapacity += freeCapacityChange;
+//
+//		for (int i = 0; i < turns.size(); i++) {
+//		    long shipCountInTurn = turns.get(i).getTrips().stream()
+//		            .filter(t -> t.getShip().equals(trip.getShip()))
+//		            .count();
+//
+//		    if (shipCountInTurn < trip.getShip().getAmount()) {
+//		        turns.get(i).addTrips(trip);
+//		        return i;
+//		    }
+//		}
+//
+//		turns.add(new Turn());
+//		turns.get(turns.size() - 1).addTrips(trip);
+//		return turns.size() - 1;
 		int shipcount;
 		List<Trip> trips;
 		freeCapacity += trip.getShip().getCapacity() - trip.getAmount();
@@ -115,7 +132,7 @@ public class Solution {
 	 * @return
 	 */
 	private List<Trip> getAllTrips(Solution solution) {
-		List<Trip> trips = new ArrayList<>();
+		List<Trip> trips = new LinkedList<>();
 		for (Turn turn : solution.getTurns()) {
 			trips.addAll(turn.getTrips());
 		}
