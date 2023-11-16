@@ -24,6 +24,10 @@ public class ToolController {
         loadEvents = new ArrayList<>();
     }
 
+    /**
+     * Passes a ToolGUI to the ToolController
+     * @param gui
+     */
     public void setGUI(ToolGUI gui) {
         this.gui = gui;
     }
@@ -36,7 +40,7 @@ public class ToolController {
         QuestSolver solver = null;
 
         while (true) {
-            if (!eventQueue.isEmpty()) {
+            if (!eventQueue.isEmpty()) {            // Check for new Events
                 event = eventQueue.poll();
                 params = event.getParameters();
 
@@ -185,6 +189,10 @@ public class ToolController {
         }
     }
 
+    /**
+     * Send an GUIEvent to the ToolController, or wait for new Events if no Event was passed.
+     * @param e The event or null
+     */
     public synchronized void update(GUIEvent e) {
         if (e == null) {
             try {
@@ -197,6 +205,11 @@ public class ToolController {
         }
     }
 
+    /**
+     * Saves the fleet and quest to a file
+     * @param path the filepath
+     * @return true if successful, false otherwise
+     */
     private boolean save(String path) {
         List<String> lines = new ArrayList<>();
         Collection<Ship> ships = fleet.getShips();
@@ -219,6 +232,11 @@ public class ToolController {
         return true;
     }
 
+    /**
+     * Loads a quest and fleet from a file
+     * @param path The filepath
+     * @return true if successful, false otherwise
+     */
     private boolean load(String path) {
         List<String> lines = null;
         int idx = 0;
